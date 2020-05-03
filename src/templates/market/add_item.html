@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    Add Item
+{% endblock %}
+{% block body_block %}
+<h2> Add item here!</h2>
+{% if additem %}
+<strong>Thanks for add category!</strong>
+{% else %}
+    <form id="item_form" method="post" action="{% url 'market:add_item' %}">
+        {% csrf_token %}
+        {{ item_form.as_p }}
+        <input type="submit" name="submit" value="Add Item"/>
+    </form>
+{% endif %}
+{% endblock %}

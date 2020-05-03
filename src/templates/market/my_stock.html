@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    {{ stock }} shop
+{% endblock %}
+{% block body_block %}
+    {% if categoryname %}
+         Your categories:<br/>
+            {% for category in categoryname %}
+                <a href="{% url 'market:category' %}">{{ category }}<br/><a/>
+            {% endfor %}
+    {% else %}
+        Your don't have category in your stock!
+    {% endif %}
+        <li><a href="{% url 'market:add_category' %}">Add Category in your Stock</a></li>
+{% endblock %}

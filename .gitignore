@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+admin_profile_avatar
+customer_profile_avatar

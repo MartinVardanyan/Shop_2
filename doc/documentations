@@ -1,0 +1,112 @@
+MODELS
+
+Item: Category, name, price, quanity,  picture, is_removed
+Category: name
+Stock: Administrator, Item, name
+MyBug: Customer, Item, buy_time
+Administrator: user, avatar, registrated_at
+Customer: user avatar, registrated_at
+
+VIEWS
+
+AdminRegister
+CustomerRegister
+Login (Customer or Admin search in database)
+Logout
+
+
+FORMS.PY
+
+StockForm
+CategoryForm
+ItemForm
+UserForm
+AdminForm
+CustomerForm
+
+#####################################################################################
+Show_stock_list (for Customer)
+Show_category_list (for Customer)
+Show_category_items_list (for Customer)
+Add_items_in_my_bug (for Customer)
+View_my_bug (for Customer)
+Removie_my_bug_item (for Customer)
+Add_stock (for Admin only one for every Admin)
+Add_category (for Admin)
+Add_item (for Admin)
+Show_item (for Admin)
+Show_category (for Admin)
+edit_item_name (for Admin)
+edit_item_quanity (for Admin)
+edit_item_price (for Admin)
+edit_category_name (for Admin)
+Income ( for Admin)
+
+Shop.jpg
+MEDIA
+
+Customer_picture/cutomer_picture.jpg
+Admin_picture/admin_picture.jpg
+Item_Picture/item_picture.jpg
+Category_Picture/category_picture.jpg
+
+TEMPLATES
+
+Base.html
+AdminRegister
+CustomerRegister
+Login (Customer or Admin search in database)
+Stock_list (for Customer)
+Category_list (for Customer)
+Items_list (for Customer)
+My_bug (for Customer)
+Add_stock (for Admin only one for every Admin)
+Add_category (for Admin)
+Add_item (for Admin)
+edit_item_name (for Admin)
+edit_item_quanity (for Admin)
+edit_item_price (for Admin)
+edit_category_name (for Admin)
+Account (for Admin)
+
+
+
+
+
+
+Process
+
+Regist and login:
+    1) The site opens from the registration page. The user can register as a client or administrator, that is, the owner of the store. Also on the registration page there is a login button (if the user is registered).
+
+    2) After registration, the user must login to the page.
+
+After login like User:
+
+    1) A list of stores opens. The user selects the store from which he wants to buy goods, also have a bottom of logout.
+
+    2) After choosing it, a list of categories of goods available in the store opens.
+
+    3)  After selecting a category of interest to the user, the user opens a list of products that he can purchase.
+
+    4) The user selects the product, indicates the required quantity of the product and the product ends up in the user's basket.
+
+    5) The user can view his cart, as well as change it.
+
+
+
+After login like Administrator:
+
+    1) Opens a place to add a store.
+
+    2) The store page, where a list of product categories is shown, in the store, with the add product category button, and have a buttom of logout.
+
+
+    3) Page for adding product categories.
+
+    4) If you click on an existing category, then a list of products opens in this category. There are also buttons for changing the name and photo of the category, adding products, changing the parameters of the item (photo, name, price, quantity).
+
+
+    5) If you click on the add product button, the page for adding products opens, where you need to enter the name, quantity, price and photo of the product, after which the product will be added to the current category.
+
+    6) On the store page, the administrator has the opportunity to receive information: how many and what goods were sold, the total amount of goods sold – INCOME.

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    {{ category_name }} category
+{% endblock %}
+{% block body_block %}
+{% if item_name %}
+     Your Items:<br/>
+        {% for item in item_name %}
+            {{ category }}<br/>
+        {% endfor %}
+{% else %}
+    Your don't have item in your category!
+{% endif %}
+    <li><a href="{% url 'market:add_item' %}">Add Item in your Category</a></li>
+{% endblock %}

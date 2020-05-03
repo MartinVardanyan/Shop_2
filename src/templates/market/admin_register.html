@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    Admin Register
+{% endblock %}
+{% block body_block %}
+    <h1>Register Here</h1>
+    {% if registered %}
+        <strong>Thank you for registering dear Admin!</strong>
+    {% else %}
+        <strong>Register Here Shop Administrator!</strong>
+    <form id="admin_form" method="post" action="{% url 'market:admin_register' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ admin_form.as_p }}
+        {{ stock_form.as_p }}
+        <input type="submit" name="submit" value="Register"/>
+    </form>
+    {% endif %}
+{% endblock %}

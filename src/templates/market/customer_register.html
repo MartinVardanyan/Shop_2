@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+    Customer Register
+{% endblock %}
+{% block body_block %}
+    <h1>Register Here</h1>
+    {% if registered %}
+        <strong>Thank you for registering dear Customer!</strong>
+    {% else %}
+        <strong>Register Here Customer!</strong>
+    <form id="customer_form" method="post" action="{% url 'market:customer_register' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ customer_form.as_p }}
+        <input type="submit" name="submit" value="Register"/>
+    </form>
+    {% endif %}
+{% endblock %}

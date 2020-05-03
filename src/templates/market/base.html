@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Market -
+    {% block title_block %}
+        Welcome to our online shop!
+    {% endblock %}
+    </title>
+</head>
+<body>
+    <div>
+        {% block body_block%}
+        {% endblock %}
+    </div>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'market:logout' %}">Logout</a></li>
+    <li><a href="{% url 'market:admin_profile' %}">Your Profile</a> </li>
+    {% else %}
+    <li><a href="{% url 'market:login' %}">Login</a></li>
+    <li><a href="{% url 'market:admin_register' %}">Register like Admin</a></li>
+    <li><a href="{% url 'market:customer_register' %}">Register like Customer</a></li>
+    {% endif %}
+</body>
+</html>
