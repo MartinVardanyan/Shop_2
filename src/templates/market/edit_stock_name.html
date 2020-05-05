@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+Edit Stock Name!
+{% endblock %}
+{% block body_block %}
+<h2>Edit your stock name!</h2>
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <label>Enter stock name</label>
+        <input type="text" name="name" value="{{ stock_name }}"/>
+    </p>
+    <input type="submit" value="Save" >
+</form>
+{% endblock %}

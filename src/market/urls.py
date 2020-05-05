@@ -15,4 +15,5 @@ urlpatterns = [
     path('my_stock/add_category/', AdminViews.AdminAddCategoryView.as_view(), name='add_category'),
     path('my_stock/category/<int:id>/add_item/', AdminViews.AdminAddItemView.as_view(), name='add_item'),
     path('category/<int:id>/', AdminViews.AdminCategoryView.as_view(), name='category'),
+    path('my_stock/edit_stock_name/<int:id>/', AdminViews.AdminEditStockNameView.as_view(), name='edit_stock_name'),
 ]

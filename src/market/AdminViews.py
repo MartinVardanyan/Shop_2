@@ -7,6 +7,7 @@ from market.models import Administrator, Stock, Item, Category
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 
 
 class AdminRegisterView(View):
@@ -68,10 +69,12 @@ class AdminProfileView(View):
             print(stock[0])
             print(stock[0].name)
             stockname = stock[0].name
+            stock_id = stock[0].id
             print(2.5)
             context_dict = {'username': user,
                             'stockname': stockname,
-                            'avatar': avatar}
+                            'avatar': avatar,
+                            'id': stock_id}
             print(context_dict, 3)
             return render(request, 'admin_profile.html', context_dict)
 
@@ -222,3 +225,37 @@ class AdminAddItemView(View):
         return render(request, 'add_item.html', {'item_form': item_form,
                                                  'additem': additem,
                                                  'category': category})
+
+
+class AdminEditStockNameView(View):
+    @method_decorator(login_required)
+    def get(self, request, id):
+        stock = Stock.objects.get(id=id)
+        context_dict = {}
+        context_dict['stock'] = stock.id
+        return render(request,'edit_stock_name.html', context_dict)
+
+    @method_decorator(login_required)
+    def post(self, request, id):
+        try:
+            user = request.user
+            admin = Administrator.objects.filter(user=user)
+            stock = Stock.objects.get(id=id)
+            avatar = admin[0].avatar
+            print(1, stock)
+            if request.method == 'POST':
+                print(2)
+                stock.name = request.POST.get('name')
+                print(stock.name, 3)
+                stock.save()
+                print(4)
+                context_dict = {}
+                context_dict['id'] = stock.id
+                context_dict['stockname'] = stock.name
+                context_dict['username'] = user
+                context_dict['avatar'] = avatar
+                return render(request, 'admin_profile.html', context_dict)
+            else:
+                return render(request, "edit_stock_name.html", {"stock": stock})
+        except Stock.DoesNotExist:
+            return HttpResponse("<h2>Stock not found</h2>")
