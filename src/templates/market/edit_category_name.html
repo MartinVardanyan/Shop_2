@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+Edit Category Name!
+{% endblock %}
+{% block body_block %}
+<h2>Edit your category name!</h2>
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <label>Enter category name</label>
+        <input type="text" name="name" value="{{ category.name }}"/>
+    </p>
+    <input type="submit" value="Save" >
+</form>
+{% endblock %}>

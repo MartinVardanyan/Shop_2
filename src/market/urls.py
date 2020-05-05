@@ -16,4 +16,8 @@ urlpatterns = [
     path('my_stock/category/<int:id>/add_item/', AdminViews.AdminAddItemView.as_view(), name='add_item'),
     path('category/<int:id>/', AdminViews.AdminCategoryView.as_view(), name='category'),
     path('my_stock/edit_stock_name/<int:id>/', AdminViews.AdminEditStockNameView.as_view(), name='edit_stock_name'),
+    path('my_stock/category/<int:id>/edit_category_name/', AdminViews.AdminEditCategoryNameView.as_view(), name='edit_category_name'),
+    path('category/<int:id>/edit_item_name/', AdminViews.AdminEditItemNameView.as_view(), name='edit_item_name'),
+    path('category/<int:id>/edit_item_price/', AdminViews.AdminEditItemPriceView.as_view(), name='edit_item_price'),
+    path('category/<int:id>/edit_item_quanity/', AdminViews.AdminEditItemQuanityView.as_view(), name='edit_item_quanity'),
 ]

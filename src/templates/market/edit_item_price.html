@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% block title_block %}
+Edit Item Price!
+{% endblock %}
+{% block body_block %}
+<h2>Edit your item price!</h2>
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <label>Enter item price</label>
+        <input type="number" name="price" value="{{ item.price }}"/>
+    </p>
+    <input type="submit" value="Save" >
+</form>
+{% endblock %}>

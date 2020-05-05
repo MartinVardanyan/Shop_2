@@ -6,12 +6,12 @@
 {% endblock %}
 {% block body_block %}
     {% if categories %}
-         <strong>Your categories:</strong><br/>
+         <strong>Your categories:</strong><br/><br/>
             {% for category in categories %}
-                    <a href="{% url 'market:category' category.id %}">{{ category.name }}<br/></a>
+<a href="{% url 'market:category' category.id %}"><strong>{{ category.name }}</strong>--<a href="{% url 'market:edit_category_name' category.id %}">Edit category name!</a><br/></a>
             {% endfor %}
     {% else %}
         Your don't have category in your stock!
     {% endif %}
-        <li><a href="{% url 'market:add_category' %}">Add Category in your Stock</a></li>
+        <br/><li><a href="{% url 'market:add_category' %}">Add Category in your Stock</a></li>
 {% endblock %}

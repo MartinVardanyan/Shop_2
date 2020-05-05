@@ -6,10 +6,10 @@
 {% endblock %}
 {% block body_block %}
 {% if item %}
-<strong>Your Items:</strong><br/>
+<strong>Your Items:</strong><br/><br/>
         {% for items in item %}
-            {{ items.name }} - {{ items.price }}$ - {{ items.quanity }} pieces<br/>
-            <img src="/media/{{ items.picture }}" width="150" height="150" alt="{{ item }}'s items image" /><br/>
+            {{ items.name }}<a href="{% url 'market:edit_item_name' items.id %}"> - Edit</a> - {{ items.price }}$<a href="{% url 'market:edit_item_price' items.id %}"> - Edit</a> - {{ items.quanity }} pieces<a href="{% url 'market:edit_item_quanity' items.id %}"> - Edit</a><br/>
+            <img src="/media/{{ items.picture }}" width="150" height="150" alt="{{ item }}'s items image" /><br/><br/>
         {% endfor %}
 {% else %}
     Your don't have item in your category!
