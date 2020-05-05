@@ -125,25 +125,8 @@ class AdminCategoryView(View):
             if Item:
                 print(4)
                 context_dict = {}
-                context_item_name = []
-                context_item_price = []
-                context_item_quanity = []
-                context_item_picture = []
-                for item in Item.objects.filter(category=category):
-                    context_item_name.append(item.name)
-                    print(context_item_name, 5)
-                    context_item_price.append(item.price)
-                    print(context_item_price, 6)
-                    context_item_quanity.append(item.quanity)
-                    print(context_item_quanity, 7)
-                    context_item_picture.append(item.picture)
-                context_dict['item_name'] = context_item_name
-                print(context_dict, 8)
-                context_dict['item_price'] = context_item_price
-                print(context_dict, 9)
-                context_dict['item_quanity'] = context_item_quanity
-                print(context_dict, 10)
-                context_dict['item_picture'] = context_item_picture
+                item = Item.objects.filter(category=category)
+                context_dict['item'] = item
                 context_dict['category'] = category
                 print(context_dict)
                 return render(request, 'category.html', context_dict)

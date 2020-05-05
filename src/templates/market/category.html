@@ -5,17 +5,11 @@
     {{ category.name }} Category
 {% endblock %}
 {% block body_block %}
-{% if item_name %}
+{% if item %}
 <strong>Your Items:</strong><br/>
-        {% for item in item_name %}
-        {% for price in item_price %}
-        {% for quanity in item_quanity %}
-        {% for picture in item_picture %}
-            {{ item }} - {{ price }}$ - {{ quanity }} pieces<br/>
-            <img src="/media/{{ picture }}" width="150" height="150" alt="{{ item }}'s items image" /><br/>
-        {% endfor %}
-        {% endfor %}
-        {% endfor %}
+        {% for items in item %}
+            {{ items.name }} - {{ items.price }}$ - {{ items.quanity }} pieces<br/>
+            <img src="/media/{{ items.picture }}" width="150" height="150" alt="{{ item }}'s items image" /><br/>
         {% endfor %}
 {% else %}
     Your don't have item in your category!

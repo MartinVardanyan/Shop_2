@@ -17,6 +17,7 @@
     {% if user.is_authenticated %}
     <li><a href="{% url 'market:logout' %}">Logout</a></li>
     <li><a href="{% url 'market:admin_profile' %}">Your Profile</a> </li>
+    <li><a href="{% url 'market:my_stock' %}">Your stock categories</a></li>
     {% else %}
     <li><a href="{% url 'market:login' %}">Login</a></li>
     <li><a href="{% url 'market:admin_register' %}">Register like Admin</a></li>
