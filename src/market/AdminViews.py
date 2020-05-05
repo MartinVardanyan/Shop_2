@@ -94,18 +94,14 @@ class AdminStockView(View):
             admin = Administrator.objects.filter(user=user)
             print(2)
             stock = Stock.objects.filter(admin=admin[0])
-            print(3)
             stockname = stock[0].name
             print(stock, stockname, 4)
             if Category:
                 print(5)
                 context_dict = {}
-                context_list = []
-                for categories in Category.objects.filter(stock=stock[0]):
-                    context_list.append(categories.name)
-                    print(categories.name, 6)
-                    print(context_list, 7)
-                context_dict['categoryname'] = context_list
+                category = Category.objects.filter(stock=stock[0])
+                context_dict['categories'] = category
+                context_dict['stock_name'] = stockname
                 print(context_dict)
                 return render(request, 'my_stock.html', context_dict)
 
@@ -122,42 +118,39 @@ class AdminStockView(View):
 
 class AdminCategoryView(View):
     @method_decorator(login_required)
-    def get(self, request):
+    def get(self, request, id):
         if request.method == 'GET':
-            user = request.user
-            print(user, 0)
-            admin = Administrator.objects.filter(user=user)
-            print(admin, 1)
-            stock = Stock.objects.filter(admin=admin[0])
-            print(stock, 2)
-            category = Category.objects.get(stock=stock) #id=? name=? )
+            category = Category.objects.get(id=id)
             print(category, 3)
-            category_name = category[0].name
-            print(category_name, 3.5)
             if Item:
                 print(4)
                 context_dict = {}
                 context_item_name = []
                 context_item_price = []
                 context_item_quanity = []
-                for item in Item.objects.filter(stock=stock, category=category.POST['name']):
+                context_item_picture = []
+                for item in Item.objects.filter(category=category):
                     context_item_name.append(item.name)
                     print(context_item_name, 5)
                     context_item_price.append(item.price)
                     print(context_item_price, 6)
                     context_item_quanity.append(item.quanity)
                     print(context_item_quanity, 7)
+                    context_item_picture.append(item.picture)
                 context_dict['item_name'] = context_item_name
                 print(context_dict, 8)
                 context_dict['item_price'] = context_item_price
                 print(context_dict, 9)
                 context_dict['item_quanity'] = context_item_quanity
                 print(context_dict, 10)
+                context_dict['item_picture'] = context_item_picture
+                context_dict['category'] = category
+                print(context_dict)
                 return render(request, 'category.html', context_dict)
             else:
                 item = print("Your category dont have item, please add!")
-                context_dict = {'item': item,
-                                'category_name': category_name}
+                context_dict = {'item': item}
+                print(context_dict)
                 return render(request, 'category.html', context_dict)
 
     @method_decorator(login_required)
@@ -203,13 +196,23 @@ class AdminAddCategoryView(View):
 
 class AdminAddItemView(View):
     @method_decorator(login_required)
-    def get(self, request):
-        print(0)
-        return render(request, 'add_item.html')
+    def get(self, request, id):
+        try:
+            category = Category.objects.get(id=id)
+        except Category.DoesNotExist:
+            category = None
+        context_dict = {}
+        context_dict['category'] = category
+        print(context_dict, 0)
+        return render(request, 'add_item.html', context_dict)
 
     @method_decorator(login_required)
     def post(self, request, id):
-        print(1)
+        try:
+            category = Category.objects.get(id=id)
+        except Category.DoesNotExist:
+            category = None
+        print(category, 1)
         additem = False
         if request.method == 'POST':
             print(2)
@@ -219,13 +222,13 @@ class AdminAddItemView(View):
                 print(data, 3)
                 user = request.user
                 print(user, 4)
-                admin = Administrator.objects.filter(user=user)
+                admin = Administrator.objects.get(user=user)
                 print(admin, 5)
-                stock = Stock.objects.filter(admin=admin[0])
+                stock = Stock.objects.get(admin=admin)
                 print(stock, 6)
-                category = Category.objects.get(stock=stock, id=id)
+                category = Category.objects.get(id=id)
                 print(category, 7)
-                item = Item.objects.create(stock=stock, category=category, name=request.POST['name'], price=request.POST['price'], quanity=request.POST['quanity'], picture=request.POST['picture'])
+                item = Item.objects.create(stock=stock, category=category, name=request.POST['name'], price=request.POST['price'], quanity=request.POST['quanity'], picture=request.FILES['picture'])
                 item.save()
                 print(item, 8)
                 additem = True
@@ -234,4 +237,5 @@ class AdminAddItemView(View):
         else:
             item_form = ItemForm()
         return render(request, 'add_item.html', {'item_form': item_form,
-                                                 'additem': additem})
+                                                 'additem': additem,
+                                                 'category': category})

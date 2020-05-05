@@ -2,14 +2,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title_block %}
-    Add Item
+    Add Item in {{ category.name }} Category
 {% endblock %}
 {% block body_block %}
 <h2> Add item here!</h2>
 {% if additem %}
-<strong>Thanks for add category!</strong>
+<strong>Thanks for add item!</strong>
 {% else %}
-    <form id="item_form" method="post" action="{% url 'market:add_item' %}">
+    <form id="item_form" method="post" action="{% url 'market:add_item' category.id %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ item_form.as_p }}
         <input type="submit" name="submit" value="Add Item"/>

@@ -2,16 +2,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title_block %}
-    {{ category_name }} category
+    {{ category.name }} Category
 {% endblock %}
 {% block body_block %}
 {% if item_name %}
-     Your Items:<br/>
+<strong>Your Items:</strong><br/>
         {% for item in item_name %}
-            {{ category }}<br/>
+        {% for price in item_price %}
+        {% for quanity in item_quanity %}
+        {% for picture in item_picture %}
+            {{ item }} - {{ price }}$ - {{ quanity }} pieces<br/>
+            <img src="/media/{{ picture }}" width="150" height="150" alt="{{ item }}'s items image" /><br/>
+        {% endfor %}
+        {% endfor %}
+        {% endfor %}
         {% endfor %}
 {% else %}
     Your don't have item in your category!
 {% endif %}
-    <li><a href="{% url 'market:add_item' %}">Add Item in your Category</a></li>
+    <li><a href="{% url 'market:add_item' category.id %}">Add Item in your Category</a></li>
 {% endblock %}
