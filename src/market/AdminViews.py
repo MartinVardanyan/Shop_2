@@ -61,15 +61,15 @@ class AdminProfileView(View):
             print(0)
             user = request.user
             print(user, 1)
-            admin = Administrator.objects.filter(user=user)
-            print(admin[0].avatar, 13)
+            admin = Administrator.objects.get(user=user)
+            print(admin.avatar, 13)
             print(admin)
-            avatar = admin[0].avatar
-            stock = Stock.objects.filter(admin=admin[0])
-            print(stock[0])
-            print(stock[0].name)
-            stockname = stock[0].name
-            stock_id = stock[0].id
+            avatar = admin.avatar
+            stock = Stock.objects.get(admin=admin)
+            print(stock)
+            print(stock.name)
+            stockname = stock.name
+            stock_id = stock.id
             print(2.5)
             context_dict = {'username': user,
                             'stockname': stockname,
@@ -94,15 +94,15 @@ class AdminStockView(View):
             print(0)
             user = request.user
             print(1)
-            admin = Administrator.objects.filter(user=user)
+            admin = Administrator.objects.get(user=user)
             print(2)
-            stock = Stock.objects.filter(admin=admin[0])
-            stockname = stock[0].name
+            stock = Stock.objects.get(admin=admin)
+            stockname = stock.name
             print(stock, stockname, 4)
             if Category:
                 print(5)
                 context_dict = {}
-                category = Category.objects.filter(stock=stock[0])
+                category = Category.objects.filter(stock=stock)
                 context_dict['categories'] = category
                 context_dict['stock_name'] = stockname
                 print(context_dict)
@@ -162,10 +162,10 @@ class AdminAddCategoryView(View):
                 print(data, 3)
                 user = request.user
                 print(user, 4)
-                admin = Administrator.objects.filter(user=user)
+                admin = Administrator.objects.get(user=user)
                 print(admin, 5)
-                stock = Stock.objects.filter(admin=admin[0])
-                shop = stock[0]
+                stock = Stock.objects.get(admin=admin)
+                shop = stock
                 print(stock, 6)
                 category = Category.objects.create(stock=shop, name=request.POST['name'])
                 print(category, 7)
@@ -239,9 +239,9 @@ class AdminEditStockNameView(View):
     def post(self, request, id):
         try:
             user = request.user
-            admin = Administrator.objects.filter(user=user)
+            admin = Administrator.objects.get(user=user)
             stock = Stock.objects.get(id=id)
-            avatar = admin[0].avatar
+            avatar = admin.avatar
             print(1, stock)
             if request.method == 'POST':
                 print(2)
@@ -274,12 +274,12 @@ class AdminEditCategoryNameView(View):
         try:
             user = request.user
             print(1)
-            admin = Administrator.objects.filter(user=user)
+            admin = Administrator.objects.get(user=user)
             print(2)
-            stock = Stock.objects.filter(admin=admin[0])
-            stockname = stock[0].name
+            stock = Stock.objects.get(admin=admin)
+            stockname = stock.name
             categories = Category.objects.get(id=id)
-            category = Category.objects.filter(stock=stock[0])
+            category = Category.objects.filter(stock=stock)
             print(1, category)
             if request.method == 'POST':
                 print(2)
@@ -309,11 +309,11 @@ class AdminEditItemNameView(View):
     def post(self, request, id):
         try:
             user = request.user
-            admin = Administrator.objects.filter(user=user)
-            stock = Stock.objects.filter(admin=admin[0])
+            admin = Administrator.objects.get(user=user)
+            stock = Stock.objects.get(admin=admin)
             item = Item.objects.get(id=id)
             category = item.category
-            items = Item.objects.filter(category=category, stock=stock[0])
+            items = Item.objects.filter(category=category, stock=stock)
             print(category, 2)
             if request.method == 'POST':
                 item.name = request.POST.get('name')
@@ -344,11 +344,11 @@ class AdminEditItemPriceView(View):
     def post(self, request, id):
         try:
             user = request.user
-            admin = Administrator.objects.filter(user=user)
-            stock = Stock.objects.filter(admin=admin[0])
+            admin = Administrator.objects.get(user=user)
+            stock = Stock.objects.get(admin=admin)
             item = Item.objects.get(id=id)
             category = item.category
-            items = Item.objects.filter(category=category, stock=stock[0])
+            items = Item.objects.filter(category=category, stock=stock)
             print(category, 2)
             if request.method == 'POST':
                 item.price = request.POST.get('price')
@@ -379,11 +379,11 @@ class AdminEditItemQuanityView(View):
     def post(self, request, id):
         try:
             user = request.user
-            admin = Administrator.objects.filter(user=user)
-            stock = Stock.objects.filter(admin=admin[0])
+            admin = Administrator.objects.get(user=user)
+            stock = Stock.objects.get(admin=admin)
             item = Item.objects.get(id=id)
             category = item.category
-            items = Item.objects.filter(category=category, stock=stock[0])
+            items = Item.objects.filter(category=category, stock=stock)
             print(category, 2)
             if request.method == 'POST':
                 item.quanity = request.POST.get('quanity')
