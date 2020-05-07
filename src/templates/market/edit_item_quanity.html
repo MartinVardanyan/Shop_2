@@ -5,6 +5,9 @@
 Edit Item Quanity!
 {% endblock %}
 {% block body_block %}
+{% if edit %}
+<h2>Your successfully edit your item price!</h2>
+{% else %}
 <h2>Edit your item quanity!</h2>
 <form method="POST">
     {% csrf_token %}
@@ -14,4 +17,5 @@ Edit Item Quanity!
     </p>
     <input type="submit" value="Save" >
 </form>
+{% endif %}
 {% endblock %}>

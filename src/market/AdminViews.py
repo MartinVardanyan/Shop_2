@@ -238,23 +238,25 @@ class AdminEditStockNameView(View):
     @method_decorator(login_required)
     def post(self, request, id):
         try:
-            user = request.user
-            admin = Administrator.objects.get(user=user)
+            #user = request.user
+            #admin = Administrator.objects.get(user=user)
             stock = Stock.objects.get(id=id)
-            avatar = admin.avatar
+            #avatar = admin.avatar
             print(1, stock)
+            edit = False
             if request.method == 'POST':
                 print(2)
                 stock.name = request.POST.get('name')
                 print(stock.name, 3)
                 stock.save()
                 print(4)
-                context_dict = {}
-                context_dict['id'] = stock.id
-                context_dict['stockname'] = stock.name
-                context_dict['username'] = user
-                context_dict['avatar'] = avatar
-                return render(request, 'admin_profile.html', context_dict)
+                edit = True
+                #context_dict = {}
+                #context_dict['id'] = stock.id
+                #context_dict['stockname'] = stock.name
+                #context_dict['username'] = user
+                #context_dict['avatar'] = avatar
+                return render(request, 'edit_stock_name.html', {'edit': edit})#, context_dict)
             else:
                 return render(request, "edit_stock_name.html", {"stock": stock})
         except Stock.DoesNotExist:
@@ -272,27 +274,29 @@ class AdminEditCategoryNameView(View):
     @method_decorator(login_required)
     def post(self, request, id):
         try:
-            user = request.user
+            #user = request.user
             print(1)
-            admin = Administrator.objects.get(user=user)
+            #admin = Administrator.objects.get(user=user)
             print(2)
-            stock = Stock.objects.get(admin=admin)
-            stockname = stock.name
+            #stock = Stock.objects.get(admin=admin)
+            #stockname = stock.name
             categories = Category.objects.get(id=id)
-            category = Category.objects.filter(stock=stock)
-            print(1, category)
+            #category = Category.objects.filter(stock=stock)
+            print(1.5)
+            edit = False
             if request.method == 'POST':
                 print(2)
                 categories.name = request.POST.get('name')
                 print(categories.name, 3)
                 categories.save()
                 print(4)
-                context_dict = {}
-                context_dict['categories'] = category
-                context_dict['stock_name'] = stockname
-                return render(request, 'my_stock.html', context_dict)
+                edit = True
+                #context_dict = {}
+                #context_dict['categories'] = category
+                #context_dict['stock_name'] = stockname
+                return render(request, 'edit_category_name.html', {'edit': edit})
             else:
-                return render(request, "edit_category_name.html", {"category": category})
+                return render(request, "edit_category_name.html", {"category": categories})
         except Category.DoesNotExist:
             return HttpResponse("<h2>Category not found</h2>")
 
@@ -308,24 +312,26 @@ class AdminEditItemNameView(View):
     @method_decorator(login_required)
     def post(self, request, id):
         try:
-            user = request.user
-            admin = Administrator.objects.get(user=user)
-            stock = Stock.objects.get(admin=admin)
+            #user = request.user
+            #admin = Administrator.objects.get(user=user)
+            #stock = Stock.objects.get(admin=admin)
             item = Item.objects.get(id=id)
-            category = item.category
-            items = Item.objects.filter(category=category, stock=stock)
-            print(category, 2)
+            #category = item.category
+            #items = Item.objects.filter(category=category, stock=stock)
+            #print(category, 2)
+            edit = False
             if request.method == 'POST':
                 item.name = request.POST.get('name')
                 print(item.name, 3)
                 item.save()
                 print(4)
-                context_dict = {}
-                print(5)
-                context_dict['item'] = items
-                context_dict['category'] = category
-                print(context_dict)
-                return render(request, 'category.html', context_dict)
+                #context_dict = {}
+                #print(5)
+                #context_dict['item'] = items
+                #context_dict['category'] = category
+                #print(context_dict)
+                edit = True
+                return render(request, 'edit_item_name.html', {'edit': edit})
             else:
                 return render(request, "edit_item_name.html", {"item": item})
         except Item.DoesNotExist:
@@ -343,24 +349,26 @@ class AdminEditItemPriceView(View):
     @method_decorator(login_required)
     def post(self, request, id):
         try:
-            user = request.user
-            admin = Administrator.objects.get(user=user)
-            stock = Stock.objects.get(admin=admin)
+            #user = request.user
+            #admin = Administrator.objects.get(user=user)
+            #stock = Stock.objects.get(admin=admin)
             item = Item.objects.get(id=id)
-            category = item.category
-            items = Item.objects.filter(category=category, stock=stock)
-            print(category, 2)
+            #category = item.category
+            #items = Item.objects.filter(category=category, stock=stock)
+            #print(category, 2)
+            edit = False
             if request.method == 'POST':
                 item.price = request.POST.get('price')
                 print(item.price, 3)
                 item.save()
+                edit = True
                 print(4)
-                context_dict = {}
+                #context_dict = {}
                 print(5)
-                context_dict['item'] = items
-                context_dict['category'] = category
-                print(context_dict)
-                return render(request, 'category.html', context_dict)
+                #context_dict['item'] = items
+                #context_dict['category'] = category
+                #print(context_dict)
+                return render(request, 'edit_item_price.html', {'edit': edit})
             else:
                 return render(request, "edit_item_price.html", {"item": item})
         except Item.DoesNotExist:
@@ -378,24 +386,26 @@ class AdminEditItemQuanityView(View):
     @method_decorator(login_required)
     def post(self, request, id):
         try:
-            user = request.user
-            admin = Administrator.objects.get(user=user)
-            stock = Stock.objects.get(admin=admin)
+            #user = request.user
+            #admin = Administrator.objects.get(user=user)
+            #stock = Stock.objects.get(admin=admin)
             item = Item.objects.get(id=id)
-            category = item.category
-            items = Item.objects.filter(category=category, stock=stock)
-            print(category, 2)
+            #category = item.category
+            #items = Item.objects.filter(category=category, stock=stock)
+            #print(category, 2)
+            edit= False
             if request.method == 'POST':
                 item.quanity = request.POST.get('quanity')
                 print(item.quanity, 3)
                 item.save()
                 print(4)
-                context_dict = {}
+                #context_dict = {}
                 print(5)
-                context_dict['item'] = items
-                context_dict['category'] = category
-                print(context_dict)
-                return render(request, 'category.html', context_dict)
+                #context_dict['item'] = items
+                #context_dict['category'] = category
+                #print(context_dict)
+                edit =True
+                return render(request, 'edit_item_quanity.html', {'edit': edit})
             else:
                 return render(request, "edit_item_quanity.html", {"item": item})
         except Item.DoesNotExist:

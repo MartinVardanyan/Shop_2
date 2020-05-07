@@ -5,6 +5,9 @@
 Edit Stock Name!
 {% endblock %}
 {% block body_block %}
+{% if edit %}
+    <h2>You successfully edit your stock name!</h2>
+{% else %}
 <h2>Edit your stock name!</h2>
 <form method="POST">
     {% csrf_token %}
@@ -14,4 +17,5 @@ Edit Stock Name!
     </p>
     <input type="submit" value="Save" >
 </form>
+{% endif %}
 {% endblock %}
