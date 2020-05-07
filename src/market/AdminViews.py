@@ -258,7 +258,8 @@ class AdminEditStockNameView(View):
                 #context_dict['avatar'] = avatar
                 return render(request, 'edit_stock_name.html', {'edit': edit})#, context_dict)
             else:
-                return render(request, "edit_stock_name.html", {"stock": stock})
+                return render(request, "edit_stock_name.html", {"stock": stock,
+                                                                'edit': edit})
         except Stock.DoesNotExist:
             return HttpResponse("<h2>Stock not found</h2>")
 
@@ -296,7 +297,8 @@ class AdminEditCategoryNameView(View):
                 #context_dict['stock_name'] = stockname
                 return render(request, 'edit_category_name.html', {'edit': edit})
             else:
-                return render(request, "edit_category_name.html", {"category": categories})
+                return render(request, "edit_category_name.html", {"category": categories,
+                                                                   'edit': edit})
         except Category.DoesNotExist:
             return HttpResponse("<h2>Category not found</h2>")
 
@@ -333,7 +335,8 @@ class AdminEditItemNameView(View):
                 edit = True
                 return render(request, 'edit_item_name.html', {'edit': edit})
             else:
-                return render(request, "edit_item_name.html", {"item": item})
+                return render(request, "edit_item_name.html", {"item": item,
+                                                               'edit': edit})
         except Item.DoesNotExist:
             return HttpResponse("<h2>Item not found</h2>")
 
@@ -370,7 +373,8 @@ class AdminEditItemPriceView(View):
                 #print(context_dict)
                 return render(request, 'edit_item_price.html', {'edit': edit})
             else:
-                return render(request, "edit_item_price.html", {"item": item})
+                return render(request, "edit_item_price.html", {"item": item,
+                                                                'edit': edit})
         except Item.DoesNotExist:
             return HttpResponse("<h2>Item not found</h2>")
 
@@ -407,6 +411,7 @@ class AdminEditItemQuanityView(View):
                 edit =True
                 return render(request, 'edit_item_quanity.html', {'edit': edit})
             else:
-                return render(request, "edit_item_quanity.html", {"item": item})
+                return render(request, "edit_item_quanity.html", {"item": item,
+                                                                  'edit': edit})
         except Item.DoesNotExist:
             return HttpResponse("<h2>Item not found</h2>")
