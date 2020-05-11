@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+{% extends 'customer_base.html' %}
+{% load static %}
+{% block title %}
+<h1>Stocks list</h1>
+{% endblock %}
+{% block body_block %}
+{% if stocks %}
+Stocks list:<br/>
+{% for stock in stocks %}
+<a href="{% url 'market:category_list' stock.id %}">{{stock.name}}</a><br/>
+{% endfor %}
+{% else %}
+    <h2>We still don't have stock(</h2>
+{% endif %}
+{% endblock %}

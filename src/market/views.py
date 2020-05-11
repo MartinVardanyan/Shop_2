@@ -23,7 +23,7 @@ class LoginView(View):
                     return redirect(reverse('market:admin_profile'))
                 else:
                     login(request, user)
-                    return redirect(reverse('market:stock_list'))
+                    return redirect(reverse('market:customer_profile'))
             else:
                 print("Invalid login details: {0}, {1}".format(username, password))
         else:

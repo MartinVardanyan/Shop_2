@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.shortcuts import render
 from market.forms import AdminForm, StockForm, CategoryForm, ItemForm
-from market.models import Administrator, Stock, Item, Category
+from market.models import Administrator, Stock, Item, Category, MyBug
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -62,7 +62,7 @@ class AdminProfileView(View):
             user = request.user
             print(user, 1)
             admin = Administrator.objects.get(user=user)
-            print(admin.avatar, 13)
+            print(admin.avatar, 2)
             print(admin)
             avatar = admin.avatar
             stock = Stock.objects.get(admin=admin)
@@ -415,3 +415,41 @@ class AdminEditItemQuanityView(View):
                                                                   'edit': edit})
         except Item.DoesNotExist:
             return HttpResponse("<h2>Item not found</h2>")
+
+
+class AdminIncomeView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        income = False
+        if request.method == 'GET':
+            print(1)
+            user = request.user
+            print(user, 2)
+            admin = Administrator.objects.get(user=user)
+            print(admin, 3)
+            stock = Stock.objects.get(admin=admin)
+            print(stock, 4)
+            item = Item.objects.filter(stock=stock)
+            print(item, 5)
+            buy_items = MyBug.objects.filter(item=item[0])
+            print(buy_items, 6)
+            context_dict = {}
+            print(income)
+            for i in buy_items:
+                print(6.5)
+                x = int(i.item.price) * int(i.item.quanity)
+                print(x, 7)
+                context_dict['income'] = x
+                context_dict['sold_items'] = i
+                print(context_dict, 8)
+                income = True
+                print(income)
+            context_dict['income'] = income
+            return render(request, 'income.html', context_dict)
+        else:
+            return render(request, 'income.html', {'income': income})
+
+    @method_decorator(login_required)
+    def post(self, request):
+        print('post')
+        return render(request, 'income.html')

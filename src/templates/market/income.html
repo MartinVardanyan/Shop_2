@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block tittle_block %}
+Income
+{% endblock %}
+{% block body_block %}
+{% if income %}
+    {% for i in sold_items %}
+        Customer name: i.user
+        Buy time: i.buy_time
+        Item: i.item
+    {% endfor %}
+<h2>Your income: {{ income }} $</h2>
+<h3></h3>
+{% else %}
+<h3>Your items don't sold</h3>
+{% endif %}
+{% endblock %}

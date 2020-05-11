@@ -31,7 +31,7 @@ class Stock(models.Model):
 
 class Category(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
 
     def __repr__(self):
         return self.name
@@ -40,7 +40,7 @@ class Category(models.Model):
 class Item(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     price = models.IntegerField(default=0)
     quanity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='item_pictures', blank=True)

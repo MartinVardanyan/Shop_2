@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'customer_base.html' %}
+{% load static %}
+{% block title_block %}
+{{ category.name }}
+{% endblock %}
+{% block body_block %}
+{% if items %}
+<h1>{{category.name }} item list:</h1><br/>
+{% for item in items %}
+    {{ item.name }} - {{ item.price }} $ - {{ item.quanity }} pieces<br/>
+    <img src="/media/{{ item.picture }}" width="150" height="150" alt="{{ item.name }}'s items image" /><br/><br/>
+{% endfor %}
+{% else %}
+    <h2>{{ category.name }} category don't have items!</h2>
+{% endif %}
+{% endblock %}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'base.html' %}
+{% extends 'admin_base.html' %}
 {% load static %}
 {% block title_block %}
 {{ username }} Profile
@@ -11,9 +11,4 @@
     <br/><br/>{% if avatar %}
         <img src="/media/{{ avatar }}" width="300" height="300" alt="{{ username }}'s profile image" />
     {% endif %}
-    <form id="admin_form" method="post" action="{% url 'market:admin_profile' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ admin_form.as_p }}
-        <input type="submit" value="Update"/>
-    </form>
 {% endblock %}
