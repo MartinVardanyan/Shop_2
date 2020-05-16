@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'customer_base.html' %}
+{% load static %}
+{% block title_block %}
+My Bug
+{% endblock %}
+{% block body_block %}
+        <h1>{{ customer.user }} Bug</h1>
+{% if items %}
+    {% for item in items %}
+        {{ item.item.name }} - {{ item.item.price }} $ - {{ item.item.quanity }} pieces<br/>
+        <img src="/media/{{ item.item.picture }}" width="150" height="150" alt="{{ item.item.name }}'s items image" /><br/>
+        <strong>Buy Time: {{ item.buy_time }}</strong><br/><br/>
+    {% endfor %}
+{% else %}
+<h2>Your Bug is empty!</h2>
+{% endif %}
+{% endblock %}

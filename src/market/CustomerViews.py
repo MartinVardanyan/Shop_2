@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from market.forms import CustomerForm
-from market.models import Customer, Stock, Category, Item
+from market.models import Customer, Stock, Category, Item, MyBug
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
@@ -42,9 +42,11 @@ class CustomerProfileView(View):
         user = request.user
         print(user, 1)
         customer = Customer.objects.get(user=user)
+        my_bug = MyBug.objects.filter(customer=customer)
         print(customer, 2)
         context_dict = {}
         context_dict['customer'] = customer
+        context_dict['my_bug'] = my_bug
         print(context_dict, 3)
         return render(request, 'customer_profile.html', context_dict)
 
@@ -110,3 +112,64 @@ class CustomerStockCategoryItemListView(View):
     def post(self, request, id):
         print('post')
         return render(request, 'item_list.html', {'id': id})
+
+
+class CustomerAddItemMyBugView(View):
+    @method_decorator(login_required)
+    def get(self, request, id):
+        item = Item.objects.get(id=id)
+        print('get', item)
+        return render(request, 'add_my_bug.html')
+
+    @method_decorator(login_required)
+    def post(self, request, id):
+        add = False
+        print('post')
+        if request.method == 'POST':
+            print(1)
+            user = request.user
+            customer = Customer.objects.get(user=user)
+            item = Item.objects.get(id=id)
+            item.quanity = item.quanity - int(request.POST.get('quanity'))
+            item.save()
+            print(2, item)
+            my_bug = MyBug()
+            my_bug.customer = customer # Hajord toxic anhaskanliya, vonc anem quanity pahy - ???!!!
+            item.quanity = request.POST.get('quanity')
+            print(my_bug.item)
+            my_bug.save()
+            print(3, my_bug)
+            add = True
+            return render(request, 'add_my_bug.html', {'add': add,
+                                                       'item': item})
+        else:
+            return render(request, 'item_list.html', {'add': add})
+
+
+class CustomerMyBugView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        user = request.user
+        customer = Customer.objects.get(user=user)
+        print(1)
+        my_bug = MyBug.objects.filter(customer=customer)
+        print(2, my_bug)
+        context_dict = {}
+        context_dict['customer'] = customer
+        print(context_dict, 3)
+        context_dict['items'] = my_bug
+        print(context_dict, 4)
+        return render(request, 'my_bug.html', context_dict)
+
+    @method_decorator(login_required)
+    def post(self, request):
+        print('post')
+        return render(request, 'my_bug.html')
+
+# Erb sa verchacnenq, liqy baner karelia avelacnel, orinak Itemi ej vor sxmes, itemi vra ira masin info beri
+# Kam yete mardy nshuma ynqan qanak apranqi, ynqan xanuty chuni, inqy avtomat cuyc ta, mecaguyn qanaqy, ynqan arka e xanutum, ev avel ch toxni!
+# Evs mi banel orinak avelacnelu functionalutyuny sarqel, vochty arandzin ejow, ay amen apranqi koxy qanaq nshelu hnaraworutyun tal,
+# ev koxqy vorpes buttom MyBug avelacnelu hnaravorutyun!!!
+# Searchi hnaravorutyun itemneri ej, bayc et miqich djvar k lini, search-i het liqy ban ka, vory karelia anel, tarasxalner, angleren, mecatar, poqratar ev ayl
+# Kam search-y kazmakerpel filtreneri mijocow
+# Apranqner kan voronq hatow chen, ayl qashowen, et harcy chgitem, vonc karelia kazmakerpel

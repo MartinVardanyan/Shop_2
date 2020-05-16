@@ -25,4 +25,6 @@ urlpatterns = [
     path('customer/stock_list/', CustomerViews.CustomerStockListView.as_view(), name='stock_list'),
     path('customer/stock/<int:id>/category_list/', CustomerViews.CustomerStockCategoryListView.as_view(), name='category_list'),
     path('customer/stock/category/<int:id>/item_list/', CustomerViews.CustomerStockCategoryItemListView.as_view(), name='item_list'),
+    path('customer/add_item/<int:id>/in_my_bug/', CustomerViews.CustomerAddItemMyBugView.as_view(), name='add_item_in_my_bug'),
+    path('customer/my_bug/', CustomerViews.CustomerMyBugView.as_view(), name='my_bug'),
 ]
