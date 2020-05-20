@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 
 
-class AdminRegisterView(View):
+class Admin_Register_View(View):
     def get(self, request):
         return render(request, 'admin_register.html')
 
@@ -54,7 +54,7 @@ class AdminRegisterView(View):
                                                        'registered': registered})
 
 
-class AdminProfileView(View):
+class Admin_Profile_View(View):
     @method_decorator(login_required)
     def get(self, request):
         if request.method == 'GET':
@@ -86,7 +86,7 @@ class AdminProfileView(View):
         return render(request, 'admin_profile.html', context_dict)
 
 
-class AdminStockView(View):
+class Admin_Stock_View(View):
     @method_decorator(login_required)
     def get(self, request):
         #global context_list
@@ -119,7 +119,7 @@ class AdminStockView(View):
         return render(request, 'my_stock.html')
 
 
-class AdminCategoryView(View):
+class Admin_Category_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         if request.method == 'GET':
@@ -144,7 +144,7 @@ class AdminCategoryView(View):
         return render(request, 'category.html')
 
 
-class AdminAddCategoryView(View):
+class Admin_Add_Category_View(View):
     @method_decorator(login_required)
     def get(self, request):
         return render(request, 'add_category.html')
@@ -180,7 +180,7 @@ class AdminAddCategoryView(View):
                                                      'addcategory': addcategory})
 
 
-class AdminAddItemView(View):
+class Admin_Add_Item_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         try:
@@ -227,7 +227,7 @@ class AdminAddItemView(View):
                                                  'category': category})
 
 
-class AdminEditStockNameView(View):
+class Admin_Edit_Stock_Name_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         stock = Stock.objects.get(id=id)
@@ -264,7 +264,7 @@ class AdminEditStockNameView(View):
             return HttpResponse("<h2>Stock not found</h2>")
 
 
-class AdminEditCategoryNameView(View):
+class Admin_Edit_Category_Name_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         category = Category.objects.get(id=id)
@@ -303,7 +303,7 @@ class AdminEditCategoryNameView(View):
             return HttpResponse("<h2>Category not found</h2>")
 
 
-class AdminEditItemNameView(View):
+class Admin_Edit_Item_Name_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         item = Item.objects.get(id=id)
@@ -341,7 +341,7 @@ class AdminEditItemNameView(View):
             return HttpResponse("<h2>Item not found</h2>")
 
 
-class AdminEditItemPriceView(View):
+class Admin_Edit_Item_Price_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         item = Item.objects.get(id=id)
@@ -379,7 +379,7 @@ class AdminEditItemPriceView(View):
             return HttpResponse("<h2>Item not found</h2>")
 
 
-class AdminEditItemQuanityView(View):
+class Admin_Edit_Item_Quanity_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         item = Item.objects.get(id=id)
@@ -417,7 +417,7 @@ class AdminEditItemQuanityView(View):
             return HttpResponse("<h2>Item not found</h2>")
 
 
-class AdminIncomeView(View):
+class Admin_Income_View(View):
     @method_decorator(login_required)
     def get(self, request):
         income = False

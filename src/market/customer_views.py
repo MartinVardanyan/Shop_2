@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 
-class CustomerRegisterView(View):
+class Customer_Register_View(View):
     def get(self, request):
         return render(request, 'customer_register.html')
 
@@ -35,7 +35,7 @@ class CustomerRegisterView(View):
                                                           'registered': registered})
 
 
-class CustomerProfileView(View):
+class Customer_Profile_View(View):
     @method_decorator(login_required)
     def get(self, request):
         print('get')
@@ -58,7 +58,7 @@ class CustomerProfileView(View):
         return render(request, 'customer_profile.html', context_dict)
 
 
-class CustomerStockListView(View):
+class Customer_Stock_List_View(View):
     @method_decorator(login_required)
     def get(self, request):
         print(1)
@@ -75,7 +75,7 @@ class CustomerStockListView(View):
         return render(request, 'stock_list.html')
 
 
-class CustomerStockCategoryListView(View):
+class Customer_Stock_Category_List_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         print('get')
@@ -95,7 +95,7 @@ class CustomerStockCategoryListView(View):
         return render(request, 'category_list.html', {'id': id})
 
 
-class CustomerStockCategoryItemListView(View):
+class Customer_Stock_Category_Item_List_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         print('get')
@@ -114,7 +114,7 @@ class CustomerStockCategoryItemListView(View):
         return render(request, 'item_list.html', {'id': id})
 
 
-class CustomerAddItemMyBugView(View):
+class Customer_Add_Item_MyBug_View(View):
     @method_decorator(login_required)
     def get(self, request, id):
         item = Item.objects.get(id=id)
@@ -146,7 +146,7 @@ class CustomerAddItemMyBugView(View):
             return render(request, 'item_list.html', {'add': add})
 
 
-class CustomerMyBugView(View):
+class Customer_MyBug_View(View):
     @method_decorator(login_required)
     def get(self, request):
         user = request.user
@@ -166,10 +166,4 @@ class CustomerMyBugView(View):
         print('post')
         return render(request, 'my_bug.html')
 
-# Erb sa verchacnenq, liqy baner karelia avelacnel, orinak Itemi ej vor sxmes, itemi vra ira masin info beri
-# Kam yete mardy nshuma ynqan qanak apranqi, ynqan xanuty chuni, inqy avtomat cuyc ta, mecaguyn qanaqy, ynqan arka e xanutum, ev avel ch toxni!
-# Evs mi banel orinak avelacnelu functionalutyuny sarqel, vochty arandzin ejow, ay amen apranqi koxy qanaq nshelu hnaraworutyun tal,
-# ev koxqy vorpes buttom MyBug avelacnelu hnaravorutyun!!!
-# Searchi hnaravorutyun itemneri ej, bayc et miqich djvar k lini, search-i het liqy ban ka, vory karelia anel, tarasxalner, angleren, mecatar, poqratar ev ayl
-# Kam search-y kazmakerpel filtreneri mijocow
-# Apranqner kan voronq hatow chen, ayl qashowen, et harcy chgitem, vonc karelia kazmakerpel
+
