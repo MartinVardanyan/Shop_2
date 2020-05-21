@@ -134,29 +134,35 @@ class Customer_Add_Item_MyBug_View(View):
             print(1)
             user = request.user
             customer = Customer.objects.get(user=user)
+            x = request.POST.get('quanity')
             item = Item.objects.get(id=id)
-            item.quanity = item.quanity - int(request.POST.get('quanity'))
-            item.save()
-            print(2, item)
-            my_bug_item = Item()
-            my_bug_item.stock = item.stock
-            my_bug_item.category = item.category
-            my_bug_item.name = item.name
-            my_bug_item.price = item.price
-            my_bug_item.picture = item.picture
-            my_bug_item.customer = customer
-            my_bug_item.quanity = request.POST.get('quanity')
-            my_bug_item.save()
-            print(my_bug_item)
-            my_bug = MyBug()
-            my_bug.customer = customer
-            my_bug.item = my_bug_item
-            print(my_bug.item)
-            my_bug.save()
-            print(3, my_bug)
-            add = True
-            return render(request, 'add_item_my_bug.html', {'add': add,
-                                                            'item': my_bug_item})
+            if int(x) > int(item.quanity):
+                print('error')
+                erors = {'mesage': 'We dont have so many quanity!'}
+                return render(request, 'add_item_my_bug.html', {'error': erors})
+            else:
+                item.quanity = item.quanity - int(request.POST.get('quanity'))
+                item.save()
+                print(2, item)
+                my_bug_item = Item()
+                my_bug_item.stock = item.stock
+                my_bug_item.category = item.category
+                my_bug_item.name = item.name
+                my_bug_item.price = item.price
+                my_bug_item.picture = item.picture
+                my_bug_item.customer = customer
+                my_bug_item.quanity = request.POST.get('quanity')
+                my_bug_item.save()
+                print(my_bug_item)
+                my_bug = MyBug()
+                my_bug.customer = customer
+                my_bug.item = my_bug_item
+                print(my_bug.item)
+                my_bug.save()
+                print(3, my_bug)
+                add = True
+                return render(request, 'add_item_my_bug.html', {'add': add,
+                                                            'item': my_bug_item,})
         else:
             return render(request, 'item_list.html', {'add': add})
 
