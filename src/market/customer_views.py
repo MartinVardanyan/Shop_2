@@ -4,9 +4,10 @@ from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from market.forms import CustomerForm
-from market.models import Customer, Stock, Category, Item, MyBug
+from market.models import Customer, Stock, Category, Item, MyBug, Administrator
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 
 
 class Customer_Register_View(View):
@@ -100,8 +101,12 @@ class Customer_Stock_Category_Item_List_View(View):
     def get(self, request, id):
         print('get')
         category = Category.objects.get(id=id)
+        print(category.name)
+        stock = category.stock
+        print(stock)
+        admin = stock.admin
         print(category, 1)
-        items = Item.objects.filter(category=category)
+        items = Item.objects.filter(category=category, admin=admin)
         print(items, 2)
         context_dict = {}
         context_dict['category'] = category
@@ -119,7 +124,7 @@ class Customer_Add_Item_MyBug_View(View):
     def get(self, request, id):
         item = Item.objects.get(id=id)
         print('get', item)
-        return render(request, 'add_my_bug.html')
+        return render(request, 'add_item_my_bug.html')
 
     @method_decorator(login_required)
     def post(self, request, id):
@@ -133,17 +138,46 @@ class Customer_Add_Item_MyBug_View(View):
             item.quanity = item.quanity - int(request.POST.get('quanity'))
             item.save()
             print(2, item)
+            my_bug_item = Item()
+            my_bug_item.stock = item.stock
+            my_bug_item.category = item.category
+            my_bug_item.name = item.name
+            my_bug_item.price = item.price
+            my_bug_item.picture = item.picture
+            my_bug_item.customer = customer
+            my_bug_item.quanity = request.POST.get('quanity')
+            my_bug_item.save()
+            print(my_bug_item)
             my_bug = MyBug()
-            my_bug.customer = customer # Hajord toxic anhaskanliya, vonc anem quanity pahy - ???!!!
-            item.quanity = request.POST.get('quanity')
+            my_bug.customer = customer
+            my_bug.item = my_bug_item
             print(my_bug.item)
             my_bug.save()
             print(3, my_bug)
             add = True
-            return render(request, 'add_my_bug.html', {'add': add,
-                                                       'item': item})
+            return render(request, 'add_item_my_bug.html', {'add': add,
+                                                            'item': my_bug_item})
         else:
             return render(request, 'item_list.html', {'add': add})
+
+
+class Customer_Remove_MyBug_Item_View(View):
+    @method_decorator(login_required)
+    def get(self, request, id):
+        remove = False
+        try:
+            item = Item.objects.get(id=id)
+            item.delete()
+            remove = True
+            return render(request, 'remove_item_my_bug.html', {'remove': remove})
+        except Item.DoesNotExist:
+            return render(request, 'remove_item_my_bug.html', {'remove': remove})
+
+    @method_decorator(login_required)
+    def post(self, request, id):
+        item = Item.objects.get(id=id)
+        print('get', item)
+        return render(request, 'my_bug.html')
 
 
 class Customer_MyBug_View(View):
@@ -152,6 +186,7 @@ class Customer_MyBug_View(View):
         user = request.user
         customer = Customer.objects.get(user=user)
         print(1)
+        item = Item.objects.filter(customer=customer)
         my_bug = MyBug.objects.filter(customer=customer)
         print(2, my_bug)
         context_dict = {}
@@ -165,5 +200,3 @@ class Customer_MyBug_View(View):
     def post(self, request):
         print('post')
         return render(request, 'my_bug.html')
-
-

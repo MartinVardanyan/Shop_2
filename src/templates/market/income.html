@@ -5,11 +5,10 @@
 Income
 {% endblock %}
 {% block body_block %}
-{% if income %}
+{% if money %}
     {% for i in sold_items %}
-        Customer name: i.user
-        Buy time: i.buy_time
-        Item: i.item
+        <!--ustomer name: {{ i.customer.user }}<br/>-->
+        Item: {{ i.name }} - price: {{ i.price }} quanity: {{ i.quanity }}<br/>
     {% endfor %}
 <h2>Your income: {{ income }} $</h2>
 <h3></h3>

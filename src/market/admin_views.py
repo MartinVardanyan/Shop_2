@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.shortcuts import render
 from market.forms import AdminForm, StockForm, CategoryForm, ItemForm
-from market.models import Administrator, Stock, Item, Category, MyBug
+from market.models import Administrator, Stock, Item, Category, MyBug, Customer
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -124,11 +124,13 @@ class Admin_Category_View(View):
     def get(self, request, id):
         if request.method == 'GET':
             category = Category.objects.get(id=id)
+            user = request.user
+            admin = Administrator.objects.get(user=user)
             print(category, 3)
             if Item:
                 print(4)
                 context_dict = {}
-                item = Item.objects.filter(category=category)
+                item = Item.objects.filter(category=category, admin=admin)
                 context_dict['item'] = item
                 context_dict['category'] = category
                 print(context_dict)
@@ -214,7 +216,7 @@ class Admin_Add_Item_View(View):
                 print(stock, 6)
                 category = Category.objects.get(id=id)
                 print(category, 7)
-                item = Item.objects.create(stock=stock, category=category, name=request.POST['name'], price=request.POST['price'], quanity=request.POST['quanity'], picture=request.FILES['picture'])
+                item = Item.objects.create(stock=stock, category=category, admin=admin, name=request.POST['name'], price=request.POST['price'], quanity=request.POST['quanity'], picture=request.FILES['picture'])
                 item.save()
                 print(item, 8)
                 additem = True
@@ -420,6 +422,7 @@ class Admin_Edit_Item_Quanity_View(View):
 class Admin_Income_View(View):
     @method_decorator(login_required)
     def get(self, request):
+        global context_list
         income = False
         if request.method == 'GET':
             print(1)
@@ -429,22 +432,25 @@ class Admin_Income_View(View):
             print(admin, 3)
             stock = Stock.objects.get(admin=admin)
             print(stock, 4)
-            item = Item.objects.filter(stock=stock)
+            item = Item.objects.filter(stock=stock, admin=Administrator())
             print(item, 5)
-            buy_items = MyBug.objects.filter(item=item[0])
-            print(buy_items, 6)
             context_dict = {}
-            print(income)
-            for i in buy_items:
-                print(6.5)
-                x = int(i.item.price) * int(i.item.quanity)
-                print(x, 7)
-                context_dict['income'] = x
-                context_dict['sold_items'] = i
-                print(context_dict, 8)
-                income = True
-                print(income)
-            context_dict['income'] = income
+            if item:
+                print(item)
+                context_dict['sold_items'] = item
+                print(context_dict)
+                print(6)
+                context_list = []
+            for i in item:
+                x = int(i.price) * int(i.quanity)
+                print(x, 8)
+                context_list.append(int(x))
+                print(context_list)
+            x = sum(context_list)
+            context_dict['income'] = x
+            print(context_dict, 9)
+            income = True
+            context_dict['money'] = income
             return render(request, 'income.html', context_dict)
         else:
             return render(request, 'income.html', {'income': income})

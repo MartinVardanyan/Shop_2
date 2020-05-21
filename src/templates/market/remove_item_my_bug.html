@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+{% extends 'customer_base.html' %}
+{% load static %}
+{% block title_block %}
+Remove item in my bug!
+{% endblock %}
+{% block body_block %}
+{% if remove %}
+<h1>Item successfully remove in your bug!</h1>
+{% else %}
+<h1>Item don't find!</h1>
+{% endif %}
+{% endblock %}

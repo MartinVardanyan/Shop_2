@@ -45,6 +45,8 @@ class Item(models.Model):
     quanity = models.IntegerField(default=0)
     picture = models.ImageField(upload_to='item_pictures', blank=True)
     is_removed = models.BooleanField(default=False)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+    admin = models.ForeignKey(Administrator, on_delete=models.CASCADE, null=True)
 
     def __repr__(self):
         return "{} {} {} {} {}".format(self.stock, self.category, self.name, self.price, self.quanity)

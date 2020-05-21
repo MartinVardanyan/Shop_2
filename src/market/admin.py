@@ -3,7 +3,7 @@ from market.models import Category, Item, Stock, MyBug, Administrator, Customer
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('stock', 'category', 'name', 'price', 'quanity')
+    list_display = ('stock', 'category', 'name', 'price', 'quanity', 'admin', 'customer')
 
 
 class StockAdmin(admin.ModelAdmin):
