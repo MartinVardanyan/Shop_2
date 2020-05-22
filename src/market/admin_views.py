@@ -1,21 +1,29 @@
+#
+import json
+
+# django import
 from django.views import View
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.shortcuts import render
-from market.forms import AdminForm, StockForm, CategoryForm, ItemForm
-from market.models import Administrator, Stock, Item, Category, MyBug, Customer
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 
+# 3-th part imports
 
-class Admin_Register_View(View):
+# custom imports
+from market.forms import AdminForm, StockForm, CategoryForm, ItemForm
+from market.models import Administrator, Stock, Item, Category, MyBug, Customer
+
+#
+class Admin_Register_View(View):  # class name change
     def get(self, request):
         return render(request, 'admin_register.html')
 
     def post(self, request):
-        registered = False
+        is_registered = False # boolean field name should start with is_
         print(1)
         if request.method == 'POST':
             print(2)
@@ -43,9 +51,10 @@ class Admin_Register_View(View):
                 stock.save()
                 print(10)
                 print(11)
-                registered = True
+                is_registered = True
             else:
                 print(admin_form.errors, stock_form.errors)
+                # return error
         else:
             admin_form = AdminForm()
             stock_form = StockForm()
@@ -54,7 +63,8 @@ class Admin_Register_View(View):
                                                        'registered': registered})
 
 
-class Admin_Profile_View(View):
+#
+class Admin_Profile_View(View): # class name
     @method_decorator(login_required)
     def get(self, request):
         if request.method == 'GET':
@@ -68,7 +78,7 @@ class Admin_Profile_View(View):
             stock = Stock.objects.get(admin=admin)
             print(stock)
             print(stock.name)
-            stockname = stock.name
+            stock_name = stock.name  # variable name should be splited by _
             stock_id = stock.id
             print(2.5)
             context_dict = {'username': user,
@@ -78,14 +88,15 @@ class Admin_Profile_View(View):
             print(context_dict, 3)
             return render(request, 'admin_profile.html', context_dict)
 
-    @method_decorator(login_required)
+    # seems we dont need this function
+    @method_decorator(login_required)  
     def post(self, request):
         print(5)
         username = request.user.username
         context_dict = {'username': username}
         return render(request, 'admin_profile.html', context_dict)
 
-
+# 
 class Admin_Stock_View(View):
     @method_decorator(login_required)
     def get(self, request):
@@ -99,7 +110,7 @@ class Admin_Stock_View(View):
             stock = Stock.objects.get(admin=admin)
             stockname = stock.name
             print(stock, stockname, 4)
-            if Category:
+            if Category:  # get all categories from stock and check len()
                 print(5)
                 context_dict = {}
                 category = Category.objects.filter(stock=stock)
@@ -109,11 +120,12 @@ class Admin_Stock_View(View):
                 return render(request, 'my_stock.html', context_dict)
 
             else:
-                category = print("You dont have category in your stock!")
+                category = "You dont have category in your stock!"
                 context_dict = {'stock': stockname,
                                 'category': category}
                 return render(request, 'my_stock.html', context_dict)
 
+    # dont need this function
     @method_decorator(login_required)
     def post(self, request):
         return render(request, 'my_stock.html')
@@ -127,7 +139,7 @@ class Admin_Category_View(View):
             user = request.user
             admin = Administrator.objects.get(user=user)
             print(category, 3)
-            if Item:
+            if Item:  # wrong check
                 print(4)
                 context_dict = {}
                 item = Item.objects.filter(category=category, admin=admin)
@@ -145,6 +157,8 @@ class Admin_Category_View(View):
     def post(self, request):
         return render(request, 'category.html')
 
+# get , post, patch, put, delete
+# dont need separate classes for add and edit, just post and patch methods in one class, the same for items
 
 class Admin_Add_Category_View(View):
     @method_decorator(login_required)
@@ -238,7 +252,7 @@ class Admin_Edit_Stock_Name_View(View):
         return render(request,'edit_stock_name.html', context_dict)
 
     @method_decorator(login_required)
-    def post(self, request, id):
+    def post(self, request, id): # patch method 
         try:
             #user = request.user
             #admin = Administrator.objects.get(user=user)
@@ -362,8 +376,15 @@ class Admin_Edit_Item_Price_View(View):
             #items = Item.objects.filter(category=category, stock=stock)
             #print(category, 2)
             edit = False
+
             if request.method == 'POST':
-                item.price = request.POST.get('price')
+                price = request.POST.get('price', None)
+                name = request.POST.get('name', None)
+                if price:
+                    item.price = price #request.POST.get('price')
+                if name:
+                    item.name = name
+
                 print(item.price, 3)
                 item.save()
                 edit = True
@@ -422,7 +443,6 @@ class Admin_Edit_Item_Quanity_View(View):
 class Admin_Income_View(View):
     @method_decorator(login_required)
     def get(self, request):
-        global context_list
         income = False
         if request.method == 'GET':
             print(1)
@@ -432,21 +452,19 @@ class Admin_Income_View(View):
             print(admin, 3)
             stock = Stock.objects.get(admin=admin)
             print(stock, 4)
-            item = Item.objects.filter(stock=stock, admin=Administrator())
+            items = Item.objects.filter(stock=stock, admin__isnull=True)
             print(item, 5)
             context_dict = {}
-            if item:
+            if items:
                 print(item)
                 context_dict['sold_items'] = item
                 print(context_dict)
                 print(6)
                 context_list = []
+            x = 0
             for i in item:
-                x = int(i.price) * int(i.quanity)
+                x += int(i.price) * int(i.quanity) # no need to cal int()
                 print(x, 8)
-                context_list.append(int(x))
-                print(context_list)
-            x = sum(context_list)
             context_dict['income'] = x
             print(context_dict, 9)
             income = True
@@ -459,3 +477,6 @@ class Admin_Income_View(View):
     def post(self, request):
         print('post')
         return render(request, 'income.html')
+
+
+# put all model get functions under try except blog     

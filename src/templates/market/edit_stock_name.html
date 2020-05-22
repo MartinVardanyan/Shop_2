@@ -9,7 +9,7 @@ Edit Stock Name!
     <h2>You successfully edit your stock name!</h2>
 {% else %}
 <h2>Edit your stock name!</h2>
-<form method="POST">
+<form method="PATCH">
     {% csrf_token %}
     <p>
         <label>Enter stock name</label>

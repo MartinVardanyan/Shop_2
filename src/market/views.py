@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 
-class Login_View(View):
+class Login_View(View): # LoginView
     def get(self, request):
         return render(request, 'login.html')
 
@@ -30,7 +30,7 @@ class Login_View(View):
             render(request, 'login.html')
 
 
-class Logout_View(View):
+class Logout_View(View): # the same as LoginView
     @method_decorator(login_required)
     def get(self, request):
         logout(request)

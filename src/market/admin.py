@@ -3,7 +3,13 @@ from market.models import Category, Item, Stock, MyBug, Administrator, Customer
 
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('stock', 'category', 'name', 'price', 'quanity', 'admin', 'customer')
+    list_display = ('stock', 'category', 'name', 'price', 'quanity', 'full_name', 'customer')
+
+    def full_name(): # some params
+        return admin.user.first_name + " " + admin.user.last_name
+
+    # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
+
 
 
 class StockAdmin(admin.ModelAdmin):
