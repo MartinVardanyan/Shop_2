@@ -18,10 +18,10 @@ from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
 from django.conf import settings
-from market.views import Login_View
+from market.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('market/', include('market.urls')),
-    path('', Login_View.as_view(), name='login')
+    path('', LoginView.as_view(), name='login')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

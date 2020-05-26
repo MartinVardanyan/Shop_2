@@ -2,20 +2,20 @@
 {% extends 'admin_base.html' %}
 {% load static %}
 {% block title_block %}
-Edit Stock Name!
+    Edit Stock Name!
 {% endblock %}
 {% block body_block %}
 {% if edit %}
     <h2>You successfully edit your stock name!</h2>
 {% else %}
-<h2>Edit your stock name!</h2>
-<form method="POST">
-    {% csrf_token %}
-    <p>
-        <label>Enter stock name</label>
-        <input type="text" name="name" value="{{ stock_name }}"/>
-    </p>
-    <input type="submit" value="Save" >
-</form>
+    <h2>Edit your stock name!</h2>
+    <form method="PATCH">
+        {% csrf_token %}
+        <p>
+            <label>Enter stock name</label>
+            <input type="text" name="name" value="{{ stock_name }}"/>
+        </p>
+        <input type="submit" value="Save">
+    </form>
 {% endif %}
 {% endblock %}
