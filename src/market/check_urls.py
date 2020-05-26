@@ -1,4 +1,4 @@
-from django.urls import path
+'''from django.urls import path
 from market import views
 from market import admin_views
 from market import customer_views
@@ -18,3 +18,4 @@ urlpatterns = [
 #            return ASActivityView.get_list(request)
 #        elif request.method == 'POST':
 #            return ASActivityView.create_obj(request)
+'''

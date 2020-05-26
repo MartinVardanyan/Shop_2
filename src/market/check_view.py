@@ -1,7 +1,5 @@
-
-
+'''
 class MyViewClass(View):
-
     def get(self, request, x_id):
         pass
 
@@ -18,13 +16,12 @@ class MyViewClass(View):
             obj.field1 = field1
         if field_2:
             obj.field_2 = field2
-        obj.save()
+        obj.save()'''
 
-        pass
+'''pass
 
     def delete(self, request, x_id):
         pass
-
     
     @staticmethod
     def check_view(request):
@@ -36,10 +33,10 @@ class MyViewClass(View):
             return HttpResponseError("method not allowed")
 
     @staticmethod
-
     def get_list(request):
         pass
 
     @staticmethod
     def create_obj(request):
-        pass
+        pass 
+'''
