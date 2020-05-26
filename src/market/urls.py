@@ -28,4 +28,16 @@ urlpatterns = [
     path('customer/add_item/<int:id>/in_my_bug/', customer_views.Customer_Add_Item_MyBug_View.as_view(), name='add_item_in_my_bug'),
     path('customer/my_bug/', customer_views.Customer_MyBug_View.as_view(), name='my_bug'),
     path('customer/remove_item/<int:id>/in_my_bug/', customer_views.Customer_Remove_MyBug_Item_View.as_view(), name='remove_item_in_my_bug'),
+
+    # path('valod.id', Class.as_view())
+    # path('valod', Class.my_func)
 ]
+
+
+    #
+#    @staticmethod
+#    def check_view(request):
+#        if request.method == 'GET':
+#            return ASActivityView.get_list(request)
+#        elif request.method == 'POST':
+#            return ASActivityView.create_obj(request)

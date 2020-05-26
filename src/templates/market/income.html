@@ -5,14 +5,14 @@
 Income
 {% endblock %}
 {% block body_block %}
-{% if money %}
+{% if income %}
     {% for i in sold_items %}
         <!--ustomer name: {{ i.customer.user }}<br/>-->
         Item: {{ i.name }} - price: {{ i.price }} quanity: {{ i.quanity }}<br/>
     {% endfor %}
-<h2>Your income: {{ income }} $</h2>
-<h3></h3>
+    <h2>Your income: {{ income }} $</h2>
+    <h3></h3>
 {% else %}
-<h3>Your items don't sold</h3>
+    <h3>You have not any sold items.</h3>
 {% endif %}
 {% endblock %}

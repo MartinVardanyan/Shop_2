@@ -4,6 +4,7 @@ from market.models import Category, Item, Stock, MyBug, Administrator, Customer
 
 
 class ItemAdmin(admin.ModelAdmin):
+<<<<<<< HEAD
     list_display = ('stock_name', 'category_name', 'name', 'price', 'quanity', 'admin', 'customer')
     empty_value_display = '-empty-'
 
@@ -12,6 +13,15 @@ class ItemAdmin(admin.ModelAdmin):
 
     def category_name(self, item):
         return item.category.name + " " + item.stock.name
+=======
+    list_display = ('stock', 'category', 'name', 'price', 'quanity', 'full_name', 'customer')
+
+    def full_name(): # some params
+        return admin.user.first_name + " " + admin.user.last_name
+
+    # https://docs.djangoproject.com/en/3.0/ref/contrib/admin/
+
+>>>>>>> 6504ac7a4f2a6a47b483f7e7b0fcb12a564cbf8d
 
 
 class StockAdmin(admin.ModelAdmin):

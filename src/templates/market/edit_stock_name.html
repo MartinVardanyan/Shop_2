@@ -8,6 +8,7 @@
 {% if edit %}
     <h2>You successfully edit your stock name!</h2>
 {% else %}
+<<<<<<< HEAD
     <h2>Edit your stock name!</h2>
     <form method="PATCH">
         {% csrf_token %}
@@ -17,5 +18,16 @@
         </p>
         <input type="submit" value="Save">
     </form>
+=======
+<h2>Edit your stock name!</h2>
+<form method="PATCH">
+    {% csrf_token %}
+    <p>
+        <label>Enter stock name</label>
+        <input type="text" name="name" value="{{ stock_name }}"/>
+    </p>
+    <input type="submit" value="Save" >
+</form>
+>>>>>>> 6504ac7a4f2a6a47b483f7e7b0fcb12a564cbf8d
 {% endif %}
 {% endblock %}
