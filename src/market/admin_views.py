@@ -26,6 +26,7 @@ class AdminRegisterView(View):
             print(3)
             stock_form = StockForm(data=request.POST)
             if admin_form.is_valid() and stock_form.is_valid():
+                print(3.5)
                 data = admin_form.cleaned_data
                 print(data, 4)
                 user = User.objects.create_user(data['username'],
@@ -48,7 +49,6 @@ class AdminRegisterView(View):
                 is_registered = True
             else:
                 print(admin_form.errors, stock_form.errors)
-                return admin_form.errors, stock_form.errors
         else:
             admin_form = AdminForm()
             stock_form = StockForm()
