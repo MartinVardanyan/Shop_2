@@ -7,37 +7,22 @@ app_name = 'market'
 
 urlpatterns = [
     path('', views.LoginView.as_view(), name='login'),
-    path('admin_register/', admin_views.AdminRegisterView.as_view(), name='admin_register'),
-    path('customer_register/', customer_views.Customer_Register_View.as_view(), name='customer_register'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
-    path('admin_profile/', admin_views.AdminProfileView.as_view(), name='admin_profile'),
-    path('my_stock/', admin_views.AdminStockView.check_view, name='my_stock'),
-    path('my_stock/<int:id>/', admin_views.AdminStockView.as_view(), name='edit_stock_name'),
-    path('my_stock/add_category/', admin_views.AdminCategoryView.as_view(), name='add_category'),
-    # path('my_stock/category/<int:id>/add_item/', admin_views.Admin_Add_Item_View.as_view(), name='add_item'),
-    path('category/<int:id>/', admin_views.AdminCategoryView.as_view(), name='category'),
-    path('my_stock/category/<int:id>/edit_category_name/', admin_views.AdminCategoryView.as_view(), name='edit_category_name'),
-    # path('category/<int:id>/edit_item_name/', admin_views.Admin_Edit_Item_Name_View.as_view(), name='edit_item_name'),
-    # path('category/<int:id>/edit_item_price/', admin_views.Admin_Edit_Item_Price_View.as_view(), name='edit_item_price'),
-    # path('category/<int:id>/edit_item_quanity/', admin_views.Admin_Edit_Item_Quanity_View.as_view(), name='edit_item_quanity'),
-    path('my_stock/income/', admin_views.Admin_Income_View.as_view(), name='income'),
-    path('customer_profile/', customer_views.Customer_Profile_View.as_view(), name='customer_profile'),
-    path('customer/stock_list/', customer_views.Customer_Stock_List_View.as_view(), name='stock_list'),
-    path('customer/stock/<int:id>/category_list/', customer_views.Customer_Stock_Category_List_View.as_view(), name='category_list'),
-    path('customer/stock/category/<int:id>/item_list/', customer_views.Customer_Stock_Category_Item_List_View.as_view(), name='item_list'),
-    path('customer/add_item/<int:id>/in_my_bug/', customer_views.Customer_Add_Item_MyBug_View.as_view(), name='add_item_in_my_bug'),
-    path('customer/my_bug/', customer_views.Customer_MyBug_View.as_view(), name='my_bug'),
-    path('customer/remove_item/<int:id>/in_my_bug/', customer_views.Customer_Remove_MyBug_Item_View.as_view(), name='remove_item_in_my_bug'),
-
-    # path('valod.id', Class.as_view())
-    # path('valod', Class.my_func)
+    path('admin/register/', admin_views.AdminRegisterView.as_view(), name='admin_register'),
+    path('admin/profile/', admin_views.AdminProfileView.as_view(), name='admin_profile'),
+    path('admin/stock/', admin_views.AdminStockView.check_view, name='my_stock'),
+    path('admin/stock/<int:id>/', admin_views.AdminStockView.as_view(), name='edit_stock_name'),
+    path('admin/category/<int:id>/', admin_views.AdminCategoryView.as_view(), name='category'),
+    path('admin/stock/add/category/', admin_views.AdminCategoryView.check_view, name='add_category'),
+    path('admin/stock/category/<int:id>/add/item/', admin_views.AdminItemView.as_view(), name='add_item'),
+    path('admin/stock/category/item/<int:id>/edit/', admin_views.AdminItemView.check_view, name='edit_item'),
+    path('admin/my/stock/income/', admin_views.Admin_Income_View.as_view(), name='income'),
+    path('customer/register/', customer_views.Customer_Register_View.as_view(), name='customer_register'),
+    path('customer/profile/', customer_views.Customer_Profile_View.as_view(), name='customer_profile'),
+    path('customer/stocks/', customer_views.CustomerGetView.get_stock_list, name='stock_list'),
+    path('customer/stock/<int:id>/categories/', customer_views.CustomerGetView.get_category_list, name='category_list'),
+    path('customer/stock/category/<int:id>/items/', customer_views.CustomerGetView.get_item_list, name='item_list'),
+    path('customer/my/bug/', customer_views.CustomerMyBugView.as_view(), name='my_bug'),
+    path('customer/my/bug/add/item/<int:id>', customer_views.CustomerMyBugView.check_view, name='my_bug_add'),
+    path('customer/remove/item/<int:id>/in/my/bug/', customer_views.CustomerMyBugView.remove, name='remove'),
 ]
-
-
-    #
-#    @staticmethod
-#    def check_view(request):
-#        if request.method == 'GET':
-#            return ASActivityView.get_list(request)
-#        elif request.method == 'POST':
-#            return ASActivityView.create_obj(request)

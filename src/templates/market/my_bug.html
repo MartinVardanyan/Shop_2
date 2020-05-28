@@ -8,7 +8,7 @@ My Bug
         <h1>{{ customer.user }} Bug</h1>
 {% if items %}
     {% for item in items %}
-        {{ item.item.name }} - {{ item.item.price }} $ - {{ item.item.quanity }} pieces <a href="{% url 'market:remove_item_in_my_bug' item.item.id %}">Delete</a><br/>
+        {{ item.item.name }} - {{ item.item.price }} $ - {{ item.item.quanity }} pieces <a href="{% url 'market:remove' item.item.id %}">Delete</a><br/>
         <img src="/media/{{ item.item.picture }}" width="150" height="150" alt="{{ item.item.name }}'s items image" /><br/>
         <strong>Buy Time: {{ item.buy_time }}</strong><br/><br/>
     {% endfor %}

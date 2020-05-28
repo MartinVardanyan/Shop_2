@@ -6,9 +6,9 @@
 {% endblock %}
 {% block body_block %}
 {% if stocks %}
-Stocks list:<br/>
+<h1>Stocks list:</h1>
 {% for stock in stocks %}
-<a href="{% url 'market:category_list' stock.id %}">{{stock.name}}</a><br/>
+<a href="{% url 'market:category_list' stock.id %}"><strong>{{stock.name}}</strong></a><br/>
 {% endfor %}
 {% else %}
     <h2>We still don't have stock(</h2>

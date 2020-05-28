@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends 'admin_base.html' %}
+{% load static %}
+{% block title_block %}
+Edit Item!
+{% endblock %}
+{% block body_block %}
+{% if is_edit %}
+    <h2>Your successfully edit your item!</h2>
+
+{% else %}
+<h1>Edit your item!</h1>
+<form method="POST">
+    {% csrf_token %}
+    <p>
+        <label>Enter item name</label>
+        <input type="text" name="name" value="{{ item.name }}"/><br/>
+        <label>Enter item price</label>
+        <input type="text" name="price" value="{{ item.price }}"/><br/>
+        <label>Enter item quanity</label>
+        <input type="text" name="quanity" value="{{ item.quanity }}"/>
+    </p>
+    <input type="submit" value="Save" >
+</form>
+{% endif %}
+{% endblock %}

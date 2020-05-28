@@ -5,8 +5,9 @@
 Edit Category Name!
 {% endblock %}
 {% block body_block %}
-{% if edit %}
+{% if is_edit %}
 <h2>Your successfully edit your category name!</h2>
+<a href="{% url 'market:category' category.id %}"><h3>Back</h3></a>
 {% else %}
 <h2>Edit your category name!</h2>
 <form method="POST">

@@ -30,7 +30,7 @@ class LoginView(View):
             render(request, 'login.html')
 
 
-class Logout_View(View): # the same as LoginView
+class LogoutView(View):
     @method_decorator(login_required)
     def get(self, request):
         logout(request)

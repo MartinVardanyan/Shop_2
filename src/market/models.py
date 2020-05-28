@@ -1,8 +1,10 @@
+# django imports
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
 
+#
 class Administrator(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     registrated_at = models.DateTimeField(default=datetime.now)
@@ -12,6 +14,7 @@ class Administrator(models.Model):
         return self.user.username
 
 
+#
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     registrated_at = models.DateTimeField(default=datetime.now)
@@ -21,6 +24,7 @@ class Customer(models.Model):
         return self.user.username
 
 
+#
 class Stock(models.Model):
     admin = models.ForeignKey(Administrator, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, unique=True)
@@ -29,6 +33,7 @@ class Stock(models.Model):
         return "{} {}".format(self.admin, self.name)
 
 
+#
 class Category(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
@@ -37,6 +42,7 @@ class Category(models.Model):
         return self.name
 
 
+#
 class Item(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
@@ -52,6 +58,7 @@ class Item(models.Model):
         return "{} {} {} {} {}".format(self.stock, self.category, self.name, self.price, self.quanity)
 
 
+#
 class MyBug(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)

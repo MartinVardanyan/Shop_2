@@ -5,15 +5,10 @@
     Customer Register
 {% endblock %}
 {% block body_block %}
-    <h1>Register Here</h1>
-    {% if registered %}
-        <strong>Thank you for registering dear Customer!</strong>
-    {% else %}
-        <strong>Register Here Customer!</strong>
-    <form id="customer_form" method="post" action="{% url 'market:customer_register' %}" enctype="multipart/form-data">
+    <h1><strong>Register Here Customer!</strong></h1>
+    <form id="customer" method="post" action="{% url 'market:customer_register' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ customer_form.as_p }}
+        {{ customer.as_p }}
         <input type="submit" name="submit" value="Register"/>
     </form>
-    {% endif %}
 {% endblock %}

@@ -6,9 +6,9 @@ Add item in my bug
 {% endblock %}
 {% block body_block %}
 {% if error %}
-<h2>{{ mesage }}</h2>
+<h2>{{ message }}</h2>
 {% endif %}
-{% if add %}
+{% if is_add %}
 <h1>Item successfully add in your bug!</h1>
 {% else %}
 <form method="POST">

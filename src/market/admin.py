@@ -1,8 +1,11 @@
+# django imports
 from django.contrib import admin
 
+# 3-th path imports
 from market.models import Category, Item, Stock, MyBug, Administrator, Customer
 
 
+#
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('stock_name', 'category_name', 'name', 'price', 'quanity', 'admin', 'customer')
     empty_value_display = '-empty-'
@@ -14,6 +17,7 @@ class ItemAdmin(admin.ModelAdmin):
         return item.category.name + " " + item.stock.name
 
 
+#
 class StockAdmin(admin.ModelAdmin):
     list_display = ('admin_name', 'stock_name')
     empty_value_display = '-empty-'
@@ -25,6 +29,7 @@ class StockAdmin(admin.ModelAdmin):
         return stock.name
 
 
+#
 class MyBugAdmin(admin.ModelAdmin):
     list_display = ('customer_name', 'item_name', 'buy_time')
     empty_value_display = '-empty-'
@@ -36,6 +41,7 @@ class MyBugAdmin(admin.ModelAdmin):
         return my_bug.item.name, my_bug.item.quanity
 
 
+#
 class AdministratorAdmin(admin.ModelAdmin):
     list_display = ('user_name', 'registrated_at')
     empty_value_display = '-empty-'
@@ -44,6 +50,7 @@ class AdministratorAdmin(admin.ModelAdmin):
         return administrator.user
 
 
+#
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('user', 'registrated_at')
     empty_value_display = '-empty-'
@@ -52,6 +59,7 @@ class CustomerAdmin(admin.ModelAdmin):
         return customer.user
 
 
+#
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('category_name', 'stock_name')
     empty_value_display = '-empty-'
@@ -63,6 +71,7 @@ class CategoryAdmin(admin.ModelAdmin):
         return stock.stock.name
 
 
+#
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Stock, StockAdmin)

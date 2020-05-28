@@ -5,14 +5,22 @@
     {{ category.name }} Category
 {% endblock %}
 {% block body_block %}
-{% if item %}
+<h2>{{ category.name }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label>Edit category name</label>
+    <input type="text" name="name" value="{{ category.name }}"/>
+    <input type="submit" value="Save"></br>
+</form>
+{% if items %}
+    Your don't have item in your category!
+{% else %}
 <strong>Your Items:</strong><br/><br/>
         {% for items in item %}
-            {{ items.name }}<a href="{% url 'market:edit_item_name' items.id %}"> - Edit</a> - {{ items.price }}$<a href="{% url 'market:edit_item_price' items.id %}"> - Edit</a> - {{ items.quanity }} pieces<a href="{% url 'market:edit_item_quanity' items.id %}"> - Edit</a><br/>
+            {{ items.name }} - {{ items.price }}$ - {{ items.quanity }} pieces<br/>
+            <strong><a href="{% url 'market:edit_item' items.id %}">Edit Item</a></strong><br/>
             <img src="/media/{{ items.picture }}" width="150" height="150" alt="{{ item }}'s items image" /><br/><br/>
         {% endfor %}
-{% else %}
-    Your don't have item in your category!
 {% endif %}
     <li><a href="{% url 'market:add_item' category.id %}">Add Item in your Category</a></li>
 {% endblock %}

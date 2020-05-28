@@ -6,9 +6,9 @@
 {% endblock %}
 {% block body_block %}
 <h2> Add item here!</h2>
-{% if additem %}
-<strong>Thanks for add item!</strong>
-<a href="{% url 'market:category' category.id %}">{{ category.name }}<br/></a>
+{% if is_add_item %}
+<strong>Thanks for add item!</strong><br/>
+<a href="{% url 'market:category' category.id %}"><h3>{{ category.name }}</h3></a>
 {% else %}
     <form id="item_form" method="post" action="{% url 'market:add_item' category.id %}" enctype="multipart/form-data">
         {% csrf_token %}

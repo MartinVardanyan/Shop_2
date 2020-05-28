@@ -6,7 +6,7 @@
 {% endblock %}
 {% block body_block %}
 <h2> Add category here!</h2>
-{% if addcategory %}
+{% if is_add_category %}
 <strong>Thanks for add category!</strong>
 {% else %}
     <form id="category_form" method="post" action="{% url 'market:add_category' %}">

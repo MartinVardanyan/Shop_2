@@ -1,25 +1,32 @@
+# django imports
 from django.views import View
-from django.shortcuts import redirect
-from django.urls import reverse
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from market.forms import CustomerForm
-from market.models import Customer, Stock, Category, Item, MyBug, Administrator
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 
+# 3-th part imports
+from market.forms import CustomerForm
+from market.models import Customer, Stock, Category, Item, MyBug, Administrator
 
+
+#
 class Customer_Register_View(View):
     def get(self, request):
-        return render(request, 'customer_register.html')
+        customer = CustomerForm(data=request.GET)
+        return render(request, 'customer_register.html', {'customer': customer})
 
     def post(self, request):
-        registered = False
-        if request.method == 'POST':
-            customer_form = CustomerForm(data=request.POST)
-            if customer_form.is_valid():
-                data = customer_form.cleaned_data
+        customer_form = CustomerForm(data=request.POST)
+
+        if customer_form.is_valid():
+            data = customer_form.cleaned_data
+
+            if data['password'] != data['password2']:
+                print('Not separate password!')
+                return render(request, 'customer_register.html', {'customer': customer_form})
+            else:
                 user = User.objects.create_user(data['username'],
                                                 data['email'],
                                                 data['password'])
@@ -27,41 +34,37 @@ class Customer_Register_View(View):
                 user.save()
                 customer = Customer.objects.create(user=user, avatar=request.FILES['avatar'])
                 customer.save()
-                registered = True
-            else:
-                print(customer_form.errors)
+                return render(request, 'login.html')
         else:
-            customer_form = CustomerForm()
-        return render(request, 'customer_register.html', {'customer_form': customer_form,
-                                                          'registered': registered})
+            print(customer_form.errors)
+        return render(request, 'customer_register.html')
 
 
+#
 class Customer_Profile_View(View):
     @method_decorator(login_required)
     def get(self, request):
-        print('get')
-        user = request.user
-        print(user, 1)
-        customer = Customer.objects.get(user=user)
-        my_bug = MyBug.objects.filter(customer=customer)
-        print(customer, 2)
-        context_dict = {}
-        context_dict['customer'] = customer
-        context_dict['my_bug'] = my_bug
-        print(context_dict, 3)
-        return render(request, 'customer_profile.html', context_dict)
-
-    @method_decorator(login_required)
-    def post(self, request):
-        print('post')
-        username = request.user.username
-        context_dict = {'username': username}
-        return render(request, 'customer_profile.html', context_dict)
+        try:
+            print('get')
+            user = request.user
+            print(user, 1)
+            customer = Customer.objects.get(user=user)
+            my_bug = MyBug.objects.filter(customer=customer)
+            print(customer, 2)
+            context_dict = {}
+            context_dict['customer'] = customer
+            context_dict['my_bug'] = my_bug
+            print(context_dict, 3)
+            return render(request, 'customer_profile.html', context_dict)
+        except Customer.DoesNotExist:
+            return HttpResponse("We can't find this customer!")
 
 
-class Customer_Stock_List_View(View):
-    @method_decorator(login_required)
-    def get(self, request):
+#
+class CustomerGetView(View):
+    @staticmethod
+    @login_required
+    def get_stock_list(request):
         print(1)
         stocks = Stock.objects.all()
         print(stocks)
@@ -70,75 +73,92 @@ class Customer_Stock_List_View(View):
         print(context_dict)
         return render(request, 'stock_list.html', context_dict)
 
+    @staticmethod
+    @login_required
+    def get_category_list(request, id):
+        try:
+            print('get')
+            stock = Stock.objects.get(id=id)
+            print(stock, 1)
+            categories = Category.objects.filter(stock=stock)
+            print(categories, 2)
+            context_dict = {}
+            context_dict['categories'] = categories
+            context_dict['stock'] = stock
+            print(context_dict, 3)
+            return render(request, 'category_list.html', context_dict)
+        except Stock.DoesNotExist:
+            return HttpResponse("<h2>We can't find this stock!</h2>")
+
+    @staticmethod
+    @login_required
+    def get_item_list(request, id):
+        try:
+            print('get')
+            category = Category.objects.get(id=id)
+            print(category.name)
+            stock = category.stock
+            print(stock)
+            admin = stock.admin
+            print(category, 1)
+            items = Item.objects.filter(category=category, admin=admin)
+            print(items, 2)
+            context_dict = {}
+            context_dict['category'] = category
+            context_dict['items'] = items
+            return render(request, 'item_list.html', context_dict)
+        except Category.DoesNotExist:
+            return HttpResponse("<h2>We can't find this category!</h2>")
+
+
+#
+class CustomerMyBugView(View):
     @method_decorator(login_required)
-    def post(self, request):
-        print('post')
-        return render(request, 'stock_list.html')
+    def get(self, request):
+        print(0)
+        try:
+            user = request.user
+            customer = Customer.objects.get(user=user)
+            print(1)
+            my_bug = MyBug.objects.filter(customer=customer)
+            print(2, my_bug)
+            context_dict = {}
+            context_dict['customer'] = customer
+            print(context_dict, 3)
+            context_dict['items'] = my_bug
+            print(context_dict, 4)
+            return render(request, 'my_bug.html', context_dict)
+        except MyBug.DoesNotExist:
+            return HttpResponse("<h2>We can't find your bug</h2>")
 
+    @staticmethod
+    def check_view(request, id):
+        if request.method == "POST":
+            print('post')
+            return CustomerMyBugView.post(request, id)
+        elif request.method == 'GET':
+            print('get')
+            return CustomerMyBugView.get_list(request, id)
 
-class Customer_Stock_Category_List_View(View):
-    @method_decorator(login_required)
-    def get(self, request, id):
-        print('get')
-        stock = Stock.objects.get(id=id)
-        print(stock, 1)
-        categories = Category.objects.filter(stock=stock)
-        print(categories, 2)
-        context_dict = {}
-        context_dict['categories'] = categories
-        context_dict['stock'] = stock
-        print(context_dict, 3)
-        return render(request, 'category_list.html', context_dict)
+    @staticmethod
+    @login_required
+    def get_list(request, id):
+        return render(request, 'add_item_my_bug.html', {'id': id})
 
-    @method_decorator(login_required)
-    def post(self, request, id):
-        print('post')
-        return render(request, 'category_list.html', {'id': id})
-
-
-class Customer_Stock_Category_Item_List_View(View):
-    @method_decorator(login_required)
-    def get(self, request, id):
-        print('get')
-        category = Category.objects.get(id=id)
-        print(category.name)
-        stock = category.stock
-        print(stock)
-        admin = stock.admin
-        print(category, 1)
-        items = Item.objects.filter(category=category, admin=admin)
-        print(items, 2)
-        context_dict = {}
-        context_dict['category'] = category
-        context_dict['items'] = items
-        return render(request, 'item_list.html', context_dict)
-
-    @method_decorator(login_required)
-    def post(self, request, id):
-        print('post')
-        return render(request, 'item_list.html', {'id': id})
-
-
-class Customer_Add_Item_MyBug_View(View):
-    @method_decorator(login_required)
-    def get(self, request, id):
-        item = Item.objects.get(id=id)
-        print('get', item)
-        return render(request, 'add_item_my_bug.html')
-
-    @method_decorator(login_required)
-    def post(self, request, id):
-        add = False
-        print('post')
-        if request.method == 'POST':
+    @staticmethod
+    @login_required
+    def post(request, id):
+        is_add = False
+        try:
             print(1)
             user = request.user
             customer = Customer.objects.get(user=user)
             x = request.POST.get('quanity')
             item = Item.objects.get(id=id)
+
             if int(x) > int(item.quanity):
                 print('error')
-                erors = {'mesage': 'We dont have so many quanity!'}
+                erors = {'message': 'We dont have so many quanity!'}
                 return render(request, 'add_item_my_bug.html', {'error': erors})
             else:
                 item.quanity = item.quanity - int(request.POST.get('quanity'))
@@ -160,49 +180,21 @@ class Customer_Add_Item_MyBug_View(View):
                 print(my_bug.item)
                 my_bug.save()
                 print(3, my_bug)
-                add = True
-                return render(request, 'add_item_my_bug.html', {'add': add,
-                                                            'item': my_bug_item,})
-        else:
-            return render(request, 'item_list.html', {'add': add})
+                is_add = True
+                return render(request, 'add_item_my_bug.html', {'is_add': is_add,
+                                                                'item': my_bug_item})
+        except Item.DoesNotExist:
+            return render(request, 'add_item_my_bug.html.html', {'is_add': is_add,
+                                                                 'id': id})
 
-
-class Customer_Remove_MyBug_Item_View(View):
-    @method_decorator(login_required)
-    def get(self, request, id):
-        remove = False
+    @staticmethod
+    @login_required
+    def remove(request, id):
+        is_remove = False
         try:
             item = Item.objects.get(id=id)
             item.delete()
-            remove = True
-            return render(request, 'remove_item_my_bug.html', {'remove': remove})
+            is_remove = True
+            return render(request, 'remove_item_my_bug.html', {'is_remove': is_remove})
         except Item.DoesNotExist:
-            return render(request, 'remove_item_my_bug.html', {'remove': remove})
-
-    @method_decorator(login_required)
-    def post(self, request, id):
-        item = Item.objects.get(id=id)
-        print('get', item)
-        return render(request, 'my_bug.html')
-
-
-class Customer_MyBug_View(View):
-    @method_decorator(login_required)
-    def get(self, request):
-        user = request.user
-        customer = Customer.objects.get(user=user)
-        print(1)
-        item = Item.objects.filter(customer=customer)
-        my_bug = MyBug.objects.filter(customer=customer)
-        print(2, my_bug)
-        context_dict = {}
-        context_dict['customer'] = customer
-        print(context_dict, 3)
-        context_dict['items'] = my_bug
-        print(context_dict, 4)
-        return render(request, 'my_bug.html', context_dict)
-
-    @method_decorator(login_required)
-    def post(self, request):
-        print('post')
-        return render(request, 'my_bug.html')
+            return render(request, 'remove_item_my_bug.html', {'is_remove': is_remove})
