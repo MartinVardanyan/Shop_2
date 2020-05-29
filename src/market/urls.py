@@ -1,4 +1,7 @@
+# django imports
 from django.urls import path
+
+# 3-th part imports
 from market import views
 from market import admin_views
 from market import customer_views
