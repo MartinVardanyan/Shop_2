@@ -12,6 +12,24 @@ class AdminForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), help_text="Please enter your password.")
     password2 = forms.CharField(widget=forms.PasswordInput(), help_text="Please repeat your password. ")
 
+    def clean(self):
+        #
+        print("Clean\n")
+        if self.cleaned_data['re_password'] != self.cleaned_data['password']:
+            print("Clean password\n")
+            raise forms.ValidationError(
+                "Passwords should match."
+            )
+
+        #
+        if User.objects.filter(email=self.cleaned_data['email']).exists():
+            print("Clean email\n")
+            raise forms.ValidationError(
+                "Email already registered."
+            )
+
+        return self.cleaned_data
+
     #
     class Meta:
         model = Administrator

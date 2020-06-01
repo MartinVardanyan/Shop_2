@@ -135,7 +135,7 @@ class CustomerMyBugView(View):
     def check_view(request, id):
         if request.method == "POST":
             print('post')
-            return CustomerMyBugView.post(request, id)
+            return CustomerMyBugView.create_obj(request, id)
         elif request.method == 'GET':
             print('get')
             return CustomerMyBugView.get_list(request, id)
@@ -173,6 +173,12 @@ class CustomerMyBugView(View):
                 my_bug_item.customer = customer
                 my_bug_item.quanity = request.POST.get('quanity')
                 my_bug_item.save()
+
+                # my_bug_item = item
+                # my_bug_item.customer = customer
+                # my_bug_item.quanity = request.POST.get('quanity')
+                # my_bug_item.admin = None
+                # my_bug_item.save()
                 print(my_bug_item)
                 my_bug = MyBug()
                 my_bug.customer = customer

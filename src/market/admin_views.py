@@ -189,8 +189,8 @@ class AdminCategoryView(View):
 
             if name:
                 category.name = request.POST.get('name')
-            print(category.name, 3)
-            category.save()
+                print(category.name, 3)
+                category.save()
             print(4)
             is_edit = True
             return render(request, 'edit_category_name.html', {'is_edit': is_edit,
@@ -204,10 +204,10 @@ class AdminCategoryView(View):
         print('check_view')
         if request.method == 'GET':
             print('get')
-            return AdminCategoryView.patch(request)
+            return AdminCategoryView.get_category_page(request)
         elif request.method == "POST":
             print('post')
-            return AdminCategoryView.patch(request)
+            return AdminCategoryView.edit_category(request)
         else:
             return HttpResponse('Method not allowed!')
 
@@ -340,7 +340,7 @@ class AdminItemView(View):
 
 
 #
-class Admin_Income_View(View):
+class Admin_Income_View(View):  # class name 
     @method_decorator(login_required)
     def get(self, request):
         is_income = False
