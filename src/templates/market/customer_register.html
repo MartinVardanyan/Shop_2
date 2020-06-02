@@ -5,10 +5,14 @@
     Customer Register
 {% endblock %}
 {% block body_block %}
+{% if is_register %}
     <h1><strong>Register Here Customer!</strong></h1>
     <form id="customer" method="post" action="{% url 'market:customer_register' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ customer.as_p }}
         <input type="submit" name="submit" value="Register"/>
     </form>
+{% else %}
+<a href="{% url 'market:customer_register' %}">Your passwords be are different!</a>
+{% endif %}
 {% endblock %}

@@ -8,40 +8,36 @@ from django.http import HttpResponse
 
 # 3-th part imports
 from market.forms import CustomerForm
-from market.models import Customer, Stock, Category, Item, MyBug, Administrator
+from market.models import Customer, Stock, Category, Item, MyBag, Administrator
 
 
 #
-class Customer_Register_View(View):
+class CustomerRegisterView(View):
     def get(self, request):
         customer = CustomerForm(data=request.GET)
-        return render(request, 'customer_register.html', {'customer': customer})
+        is_register = True
+        return render(request, 'customer_register.html', {'customer': customer, 'is_register': is_register})
 
     def post(self, request):
         customer_form = CustomerForm(data=request.POST)
 
         if customer_form.is_valid():
             data = customer_form.cleaned_data
-
-            if data['password'] != data['password2']:
-                print('Not separate password!')
-                return render(request, 'customer_register.html', {'customer': customer_form})
-            else:
-                user = User.objects.create_user(data['username'],
-                                                data['email'],
-                                                data['password'])
-                user.is_active = True
-                user.save()
-                customer = Customer.objects.create(user=user, avatar=request.FILES['avatar'])
-                customer.save()
-                return render(request, 'login.html')
+            user = User.objects.create_user(data['username'],
+                                            data['email'],
+                                            data['password'])
+            user.is_active = True
+            user.save()
+            customer = Customer.objects.create(user=user, avatar=request.FILES['avatar'])
+            customer.save()
+            return render(request, 'login.html')
         else:
             print(customer_form.errors)
         return render(request, 'customer_register.html')
 
 
 #
-class Customer_Profile_View(View):
+class CustomerProfileView(View):
     @method_decorator(login_required)
     def get(self, request):
         try:
@@ -49,11 +45,11 @@ class Customer_Profile_View(View):
             user = request.user
             print(user, 1)
             customer = Customer.objects.get(user=user)
-            my_bug = MyBug.objects.filter(customer=customer)
+            my_bag = MyBag.objects.filter(customer=customer)
             print(customer, 2)
             context_dict = {}
             context_dict['customer'] = customer
-            context_dict['my_bug'] = my_bug
+            context_dict['my_bag'] = my_bag
             print(context_dict, 3)
             return render(request, 'customer_profile.html', context_dict)
         except Customer.DoesNotExist:
@@ -112,7 +108,7 @@ class CustomerGetView(View):
 
 
 #
-class CustomerMyBugView(View):
+class CustomerMyBagView(View):
     @method_decorator(login_required)
     def get(self, request):
         print(0)
@@ -120,34 +116,34 @@ class CustomerMyBugView(View):
             user = request.user
             customer = Customer.objects.get(user=user)
             print(1)
-            my_bug = MyBug.objects.filter(customer=customer)
-            print(2, my_bug)
+            my_bag = MyBag.objects.filter(customer=customer)
+            print(2, my_bag)
             context_dict = {}
             context_dict['customer'] = customer
             print(context_dict, 3)
-            context_dict['items'] = my_bug
+            context_dict['items'] = my_bag
             print(context_dict, 4)
-            return render(request, 'my_bug.html', context_dict)
-        except MyBug.DoesNotExist:
+            return render(request, 'my_bag.html', context_dict)
+        except MyBag.DoesNotExist:
             return HttpResponse("<h2>We can't find your bug</h2>")
 
     @staticmethod
     def check_view(request, id):
         if request.method == "POST":
             print('post')
-            return CustomerMyBugView.create_obj(request, id)
+            return CustomerMyBagView.create_my_bag(request, id)
         elif request.method == 'GET':
             print('get')
-            return CustomerMyBugView.get_list(request, id)
+            return CustomerMyBagView.get_list(request, id)
 
     @staticmethod
     @login_required
     def get_list(request, id):
-        return render(request, 'add_item_my_bug.html', {'id': id})
+        return render(request, 'add_item_my_bag.html', {'id': id})
 
     @staticmethod
     @login_required
-    def post(request, id):
+    def create_my_bag(request, id):
         is_add = False
         try:
             print(1)
@@ -156,41 +152,35 @@ class CustomerMyBugView(View):
             x = request.POST.get('quanity')
             item = Item.objects.get(id=id)
 
-            if int(x) > int(item.quanity):
+            if int(x) > int(item.quanity) or int(x) <= 0:
                 print('error')
-                erors = {'message': 'We dont have so many quanity!'}
-                return render(request, 'add_item_my_bug.html', {'error': erors})
+                errors = {'message': 'We dont have so many quanity!'}
+                return render(request, 'add_item_my_bag.html', {'error': errors})
             else:
                 item.quanity = item.quanity - int(request.POST.get('quanity'))
                 item.save()
                 print(2, item)
-                my_bug_item = Item()
-                my_bug_item.stock = item.stock
-                my_bug_item.category = item.category
-                my_bug_item.name = item.name
-                my_bug_item.price = item.price
-                my_bug_item.picture = item.picture
-                my_bug_item.customer = customer
-                my_bug_item.quanity = request.POST.get('quanity')
-                my_bug_item.save()
-
-                # my_bug_item = item
-                # my_bug_item.customer = customer
-                # my_bug_item.quanity = request.POST.get('quanity')
-                # my_bug_item.admin = None
-                # my_bug_item.save()
-                print(my_bug_item)
-                my_bug = MyBug()
-                my_bug.customer = customer
-                my_bug.item = my_bug_item
-                print(my_bug.item)
-                my_bug.save()
-                print(3, my_bug)
+                my_bag_item = Item()
+                my_bag_item.stock = item.stock
+                my_bag_item.category = item.category
+                my_bag_item.name = item.name
+                my_bag_item.price = item.price
+                my_bag_item.picture = item.picture
+                my_bag_item.customer = customer
+                my_bag_item.quanity = request.POST.get('quanity')
+                my_bag_item.save()
+                print(my_bag_item)
+                my_bag = MyBag()
+                my_bag.customer = customer
+                my_bag.item = my_bag_item
+                print(my_bag.item)
+                my_bag.save()
+                print(3, my_bag)
                 is_add = True
-                return render(request, 'add_item_my_bug.html', {'is_add': is_add,
-                                                                'item': my_bug_item})
+                return render(request, 'add_item_my_bag.html', {'is_add': is_add,
+                                                                'item': my_bag_item})
         except Item.DoesNotExist:
-            return render(request, 'add_item_my_bug.html.html', {'is_add': is_add,
+            return render(request, 'add_item_my_bag.html.html', {'is_add': is_add,
                                                                  'id': id})
 
     @staticmethod
@@ -201,6 +191,6 @@ class CustomerMyBugView(View):
             item = Item.objects.get(id=id)
             item.delete()
             is_remove = True
-            return render(request, 'remove_item_my_bug.html', {'is_remove': is_remove})
+            return render(request, 'remove_item_my_bag.html', {'is_remove': is_remove})
         except Item.DoesNotExist:
-            return render(request, 'remove_item_my_bug.html', {'is_remove': is_remove})
+            return render(request, 'remove_item_my_bag.html', {'is_remove': is_remove})

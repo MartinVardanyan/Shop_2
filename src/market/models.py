@@ -59,7 +59,7 @@ class Item(models.Model):
 
 
 #
-class MyBug(models.Model):
+class MyBag(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     buy_time = models.DateTimeField(default=datetime.now)

@@ -8,7 +8,7 @@
 {% if items %}
 <h1>{{ category.name }} item list:</h1><br/>
 {% for item in items %}
-<a href="{% url 'market:my_bug_add' item.id %}">{{ item.name }}</a> - {{ item.price }} $ - {{ item.quanity }} pieces<br/>
+<a href="{% url 'market:my_bag_add' item.id %}">{{ item.name }}</a> - {{ item.price }} $ - {{ item.quanity }} pieces<br/>
     <img src="/media/{{ item.picture }}" width="150" height="150" alt="{{ item.name }}'s items image" /><br/><br/>
 {% endfor %}
 {% else %}

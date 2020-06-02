@@ -8,7 +8,7 @@ from django.http import HttpResponse
 
 # 3-th part imports
 from market.forms import AdminForm, StockForm, CategoryForm, ItemForm
-from market.models import Administrator, Stock, Item, Category, MyBug, Customer
+from market.models import Administrator, Stock, Item, Category
 
 
 #
@@ -17,7 +17,8 @@ class AdminRegisterView(View):
         admin_form = AdminForm(data=request.GET)
         print(3)
         stock_form = StockForm(data=request.GET)
-        return render(request, 'admin_register.html', {'admin': admin_form, 'stock': stock_form})
+        is_register = True
+        return render(request, 'admin_register.html', {'admin': admin_form, 'stock': stock_form, 'is_register': is_register})
 
     def post(self, request):
         print(1)
@@ -29,30 +30,24 @@ class AdminRegisterView(View):
         if admin_form.is_valid() and stock_form.is_valid():
             print(3.5)
             data = admin_form.cleaned_data
-
-            if data['password'] != data['password2']:
-                print('Not separate password!')
-                return render(request, 'admin_register.html', {'admin': admin_form,
-                                                               'stock': stock_form})
-            else:
-                print(data, 4)
-                user = User.objects.create_user(data['username'],
-                                                data['email'],
-                                                data['password'])
-                print(5)
-                user.is_active = True
-                user.save()
-                print(user.password, 6)
-                admin = Administrator.objects.create(user=user, avatar=request.FILES['avatar'])
-                print(admin)
-                print(7)
-                admin.save()
-                print(8)
-                stock = Stock.objects.create(admin=admin, name=request.POST['name'])
-                print(9)
-                stock.save()
-                print(10)
-                return render(request, 'login.html')
+            print(data, 4)
+            user = User.objects.create_user(data['username'],
+                                            data['email'],
+                                            data['password'])
+            print(5)
+            user.is_active = True
+            user.save()
+            print(user.password, 6)
+            admin = Administrator.objects.create(user=user, avatar=request.FILES['avatar'])
+            print(admin)
+            print(7)
+            admin.save()
+            print(8)
+            stock = Stock.objects.create(admin=admin, name=request.POST['name'])
+            print(9)
+            stock.save()
+            print(10)
+            return render(request, 'login.html')
         else:
             print(admin_form.errors, stock_form.errors)
             return render(request, 'admin_register.html')
@@ -162,7 +157,6 @@ class AdminCategoryView(View):
             user = request.user
             admin = Administrator.objects.get(user=user)
             print(category, 3)
-
             if len(Item.objects.filter(category=category)):
                 print(4)
                 context_dict = {}
@@ -174,7 +168,7 @@ class AdminCategoryView(View):
                 return render(request, 'category.html', context_dict)
 
             else:
-                return render(request, 'category.html')
+                return render(request, 'category.html', {'category': category})
 
         except Category.DoesNotExist:
             return HttpResponse("<h2>We can't find this category</h2>")
@@ -207,47 +201,47 @@ class AdminCategoryView(View):
             return AdminCategoryView.get_category_page(request)
         elif request.method == "POST":
             print('post')
-            return AdminCategoryView.edit_category(request)
+            return AdminCategoryView.add_category(request)
         else:
             return HttpResponse('Method not allowed!')
 
     @staticmethod
     @login_required
-    def patch(request):
-        if request.method == 'POST':
-            print(0)
-            category_form = CategoryForm(data=request.POST)
-            print(1)
+    def add_category(request):
+        print(0)
+        category_form = CategoryForm(data=request.POST)
+        print(1)
 
-            if category_form.is_valid():
-                print(2)
-                data = category_form.cleaned_data
-                print(data, 3)
-                user = request.user
-                print(user, 4)
+        if category_form.is_valid():
+            print(2)
+            data = category_form.cleaned_data
+            print(data, 3)
+            user = request.user
+            print(user, 4)
 
-                try:
-                    admin = Administrator.objects.get(user=user)
-                    print(admin, 5)
-                    stock = Stock.objects.get(admin=admin)
-                    shop = stock
-                    print(stock, 6)
-                    category = Category.objects.create(stock=shop, name=request.POST['name'])
-                    print(category, 7)
-                    category.save()
-                    print(8)
-                    is_add_category = True
-                    return render(request, 'add_category.html', {'is_add_category': is_add_category})
+            try:
+                admin = Administrator.objects.get(user=user)
+                print(admin, 5)
+                stock = Stock.objects.get(admin=admin)
+                shop = stock
+                print(stock, 6)
+                category = Category.objects.create(stock=shop, name=request.POST['name'])
+                print(category, 7)
+                category.save()
+                print(8)
+                is_add_category = True
+                return render(request, 'add_category.html', {'is_add_category': is_add_category})
 
-                except Administrator.DoesNotExist:
-                    print("We can't find this admin!")
-            else:
-                print(category_form.errors)
-        else:
-            is_add_category = False
-            category_form = CategoryForm()
-            return render(request, 'add_category.html', {'category_form': category_form,
-                                                         'is_add_category': is_add_category})
+            except Administrator.DoesNotExist:
+                print("We can't find this admin!")
+
+    @staticmethod
+    @login_required
+    def get_category_page(request):
+        is_add_category = False
+        category_form = CategoryForm()
+        return render(request, 'add_category.html', {'category_form': category_form,
+                                                     'is_add_category': is_add_category})
 
 
 #
@@ -306,41 +300,46 @@ class AdminItemView(View):
         print('check_view')
         if request.method == 'POST':
             print('post')
-            return AdminItemView.patch(request, id)
+            return AdminItemView.edit_item(request, id)
         elif request.method == 'GET':
             print('get')
-            return AdminItemView.patch(request, id)
+            return AdminItemView.get_edit_item(request, id)
         else:
             return HttpResponse('Method not allowed!')
 
     @staticmethod
     @login_required
-    def patch(request, id):
-        is_edit = False
-        if request.method == 'POST':
-            try:
-                item = Item.objects.get(id=id)
-                name = request.POST.get('name', None)
-                price = request.POST.get('price', None)
-                quanity = request.POST.get('quanity', None)
-                if price:
-                    item.price = price
-                if name:
-                    item.name = name
-                if quanity:
-                    item.quanity = quanity
+    def edit_item(request, id):
+        try:
+            item = Item.objects.get(id=id)
+            name = request.POST.get('name', None)
+            price = request.POST.get('price', None)
+            quanity = request.POST.get('quanity', None)
+            if price:
+                item.price = price
                 item.save()
-                print(4)
-                is_edit = True
-                return render(request, 'edit_item.html', {'is_edit': is_edit, 'item': item})
-            except Item.DoesNotExist:
-                return HttpResponse("We don't find this item")
-        else:
-            return render(request, 'edit_item.html', {'is_edit': is_edit})
+            if name:
+                item.name = name
+                item.save()
+            if quanity:
+                item.quanity = quanity
+                item.save()
+            print(4)
+            is_edit = True
+            return render(request, 'edit_item.html', {'is_edit': is_edit, 'item': item})
+        except Item.DoesNotExist:
+            return HttpResponse("We don't find this item")
+
+    @staticmethod
+    @login_required
+    def get_edit_item(request, id):
+        is_edit = False
+        return render(request, 'edit_item.html', {'is_edit': is_edit,
+                                                  'id': id})
 
 
 #
-class Admin_Income_View(View):  # class name 
+class AdminIncomeView(View):
     @method_decorator(login_required)
     def get(self, request):
         is_income = False

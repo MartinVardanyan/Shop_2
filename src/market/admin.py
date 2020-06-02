@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 # 3-th path imports
-from market.models import Category, Item, Stock, MyBug, Administrator, Customer
+from market.models import Category, Item, Stock, MyBag, Administrator, Customer
 
 
 #
@@ -30,15 +30,15 @@ class StockAdmin(admin.ModelAdmin):
 
 
 #
-class MyBugAdmin(admin.ModelAdmin):
+class MyBagAdmin(admin.ModelAdmin):
     list_display = ('customer_name', 'item_name', 'buy_time')
     empty_value_display = '-empty-'
 
-    def customer_name(self, my_bug):
-        return my_bug.customer.user
+    def customer_name(self, my_bag):
+        return my_bag.customer.user
 
-    def item_name(self, my_bug):
-        return my_bug.item.name, my_bug.item.quanity
+    def item_name(self, my_bag):
+        return my_bag.item.name, my_bag.item.quanity
 
 
 #
@@ -75,6 +75,6 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Stock, StockAdmin)
-admin.site.register(MyBug, MyBugAdmin)
+admin.site.register(MyBag, MyBagAdmin)
 admin.site.register(Administrator, AdministratorAdmin)
 admin.site.register(Customer, CustomerAdmin)

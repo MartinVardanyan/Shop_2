@@ -15,10 +15,10 @@
         {% endblock %}
     </div>
     {% if user.is_authenticated %}
-    <li><a href="{% url 'market:logout' %}">Logout</a></li>
-    <li><a href="{% url 'market:customer_profile' %}">Your Profile</a></li>
     <li><a href="{% url 'market:stock_list' %}">Stock list</a></li>
-    <li><a href="{% url 'market:my_bug' %}">Your bug</a></li>
+    <li><a href="{% url 'market:customer_profile' %}">Your Profile</a></li>
+    <li><a href="{% url 'market:my_bag' %}">Your bag</a></li>
+    <li><a href="{% url 'market:logout' %}">Logout</a></li>
     {% else %}
     <li><a href="{% url 'market:login' %}">Login</a></li>
     <li><a href="{% url 'market:admin_register' %}">Register like Admin</a></li>

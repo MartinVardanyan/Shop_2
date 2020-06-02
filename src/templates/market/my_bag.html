@@ -2,10 +2,10 @@
 {% extends 'customer_base.html' %}
 {% load static %}
 {% block title_block %}
-My Bug
+My Bag
 {% endblock %}
 {% block body_block %}
-        <h1>{{ customer.user }} Bug</h1>
+        <h1>{{ customer.user }} Bag</h1>
 {% if items %}
     {% for item in items %}
         {{ item.item.name }} - {{ item.item.price }} $ - {{ item.item.quanity }} pieces <a href="{% url 'market:remove' item.item.id %}">Delete</a><br/>
@@ -13,6 +13,6 @@ My Bug
         <strong>Buy Time: {{ item.buy_time }}</strong><br/><br/>
     {% endfor %}
 {% else %}
-<h2>Your Bug is empty!</h2>
+<h2>Your Bag is empty!</h2>
 {% endif %}
 {% endblock %}

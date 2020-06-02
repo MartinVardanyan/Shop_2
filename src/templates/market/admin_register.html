@@ -5,6 +5,7 @@
     Admin Register
 {% endblock %}
 {% block body_block %}
+{% if is_register %}
 <h1><strong>Register Here Shop Administrator!</strong></h1>
     <form id="admin" method="post" action="{% url 'market:admin_register' %}" enctype="multipart/form-data">
         {% csrf_token %}
@@ -12,4 +13,7 @@
         {{ stock.as_p }}
         <input  type="submit" name="submit" value="Register"/>
     </form>
+{% else %}
+<a href="{% url 'market:admin_register' %}">Your passwords be are different!</a>
+{% endif %}
 {% endblock %}
