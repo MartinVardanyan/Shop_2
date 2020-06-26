@@ -6,16 +6,18 @@
 {% endblock %}
 {% block body_block %}
 {% if is_edit %}
-    <h2>You successfully edit your stock name!</h2>
+<br /><br /><br /><center><h1 style="color: BLack"><em>You successfully edit your stock name!</em></h1></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% else %}
-    <h2>Edit your stock name!</h2>
+<center><h1><em>Edit your stock name!</em></h1>
     <form method="post" action="{% url 'market:edit_stock_name' id %}">
         {% csrf_token %}
         <p>
-            <label>Enter stock name</label>
-            <input type="text" name="name" value="{{ stock_name }}"/>
+            <label><em><h6 style="color: Black">Enter stock name</h6></em></label>
+            <input class="list-group-item" type="text" name="name" placeholder="Stock name" value="{{ stock_name }}"/>
         </p>
         <input type="submit" value="Save">
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </form>
+</center>
 {% endif %}
 {% endblock %}

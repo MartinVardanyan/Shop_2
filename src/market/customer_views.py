@@ -154,7 +154,7 @@ class CustomerMyBagView(View):
 
             if int(x) > int(item.quanity) or int(x) <= 0:
                 print('error')
-                errors = {'message': 'We dont have so many quanity!'}
+                errors = {'message': "We don't have so many quanity!"}
                 return render(request, 'add_item_my_bag.html', {'error': errors})
             else:
                 item.quanity = item.quanity - int(request.POST.get('quanity'))

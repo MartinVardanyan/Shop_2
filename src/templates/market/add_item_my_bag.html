@@ -6,18 +6,20 @@ Add item in my bug
 {% endblock %}
 {% block body_block %}
 {% if error %}
-<h2>{{ message }}</h2>
+<center><h2 style="color: BLack"><em>We don't have so many quanity!</em></h2></center><br /><br /><br />
 {% endif %}
 {% if is_add %}
-<h1>Item successfully add in your bag!</h1>
+<br /><br /><center><h1 style="color: Black"><em>Item successfully added in your bag!</em></h1></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
 {% else %}
+    <center><h2 style="color: Black"><em>Buy item</em></h2></center>
 <form method="POST">
     {% csrf_token %}
     <p>
-        <label>Enter the item quanity.</label>
-        <input type="text" name="quanity" value="{{ item.quanity }}"/>
+        <label><center><h4 style="color: Black"><em>Enter the item quanity.</em></h4></center></label>
+    <center><input class="list-group-item" type="text" name="quanity" value="{{ item.quanity }}"/></center>
     </p>
-    <input type="submit" value="Save" >
-</form>
+    <center><input type="submit" value="Save"></center>
+</form><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endif %}
 {% endblock %}

@@ -5,13 +5,13 @@
 Income
 {% endblock %}
 {% block body_block %}
-{% if income %}
+{% if income %}<br /><br /><br /><br />
     {% for i in sold_items %}
-        Item: {{ i.name }} - price: {{ i.price }} quanity: {{ i.quanity }}<br/>
+<center><h4 style="color: Black"><em>Item: {{ i.name }} - price: {{ i.price }} quantity: {{ i.quanity }}</em></h4><br/>
     {% endfor %}
-    <h2>Your income: {{ income }} $</h2>
+<br /><br /><center><h2 style="color: Black"><em>Your income: {{ income }} $</em></h2></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     <h3></h3>
 {% else %}
-    <h3>You have not any sold items.</h3>
+<br /><br /><center><em><h1 style="color: Black">You have not any sold items.</h1></em></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endif %}
 {% endblock %}

@@ -5,14 +5,38 @@
 My Bag
 {% endblock %}
 {% block body_block %}
-        <h1>{{ customer.user }} Bag</h1>
+<div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+<h1 class="my-4" style="color: Black"><em>{{ customer.user }} Bag</em></h1><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                 <h3 style="color: Black"><em><a class="nav-link" href="{% url 'market:stock_list' %}">Go shopping!</a></em></h3>
+      </div>
 {% if items %}
+        <div class="col-lg-9">
+            <h4 class="my-4"><font color="Black"><em>Your bought items:</em></font></h4><br />
+        <div class="row">
     {% for item in items %}
-        {{ item.item.name }} - {{ item.item.price }} $ - {{ item.item.quanity }} pieces <a href="{% url 'market:remove' item.item.id %}">Delete</a><br/>
-        <img src="/media/{{ item.item.picture }}" width="150" height="150" alt="{{ item.item.name }}'s items image" /><br/>
-        <strong>Buy Time: {{ item.buy_time }}</strong><br/><br/>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <a href="#"><img class="card-img-top" src="/media/{{ item.item.picture }}" width="300" height="200" alt="{{ item }}'s items image"></a>
+                    <div class="card-body">
+                    <h4 class="card-title">
+                        <em>{{ item.item.name }}</em>
+                    </h4>
+                        <h5><em>{{ item.item.price }} $</em></h5>
+                        <p class="card-text"><em>{{ item.item.quanity }} pieces</em></p>
+                    </div>
+                    <div class="card-footer">
+                    <small class="text-muted"><em>Buy time: {{ item.buy_time }}<br /><!--<a class="nav-link" href="{% url 'market:remove' item.item.id %}">Remove item in your bug!</a>--></em></small>
+                    </div>
+                </div>
+              </div>
     {% endfor %}
+        </div>
+        </div>
 {% else %}
-<h2>Your Bag is empty!</h2>
+<br /><br /><br /><center><h2 style="color: Black"><em>Your Bag is empty!</em></h2></center>
 {% endif %}
+    </div>
+</div>
 {% endblock %}

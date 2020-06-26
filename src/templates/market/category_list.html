@@ -5,12 +5,19 @@
 {{ stock.name }}
 {% endblock %}
 {% block body_block %}
+<div class="container">
+    <div class="row">
+      <div class="col-lg-4">
 {% if categories %}
-<h2>Category in {{ stock.name }} stock:</h2>
+          <br /><br /><h2 style="color: BLack"><em>Category in {{ stock.name }} stock:</em></h2><br /><br />
 {% for category in categories %}
-    <a href="{% url 'market:item_list' category.id %}">{{ category.name }}<br/></a>
+          <h5 style="color: Black"><a class="nav-link" href="{% url 'market:item_list' category.id %}"><em>{{ category.name }}</em><br/></a></h5>
 {% endfor %}
+          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% else %}
-<h2>{{ stock.name }} don't have category yet(</h2>
+          <br /><br /><br /><h2 style="color: Black"><em>{{ stock.name }} don't have category yet(</em></h2><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endif %}
+      </div>
+    </div>
+</div>
 {% endblock %}

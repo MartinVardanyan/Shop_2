@@ -1,14 +1,11 @@
-1)Erb sa verchacnenq, liqy baner karelia avelacnel, orinak Itemi ej vor sxmes, itemi vra ira masin info beri
-2)Kam yete mardy nshuma ynqan qanak apranqi, ynqan xanuty chuni, inqy avtomat cuyc ta, mecaguyn qanaqy, ynqan arka e xanutum, ev avel ch toxni!
-3)Evs mi banel orinak avelacnelu functionalutyuny sarqel, vochty arandzin ejow, ay amen apranqi koxy qanaq nshelu hnaraworutyun tal,
-ev koxqy vorpes buttom MyBug avelacnelu hnaravorutyun!!!
+1)Item-i masin info
+2)Mi qani hat nkar Itemi hamar, teqelu hnaravorutyunow, karuselow
+3)My Bug avelacnely lini + ev - tarberakow, xosqy qanaki masina.
 4)Searchi hnaravorutyun itemneri ej, bayc et miqich djvar k lini, search-i het liqy ban ka, vory karelia anel, tarasxalner, angleren, mecatar, poqratar ev ayl
 5)Kam search-y kazmakerpel filtreneri mijocow
-6)Apranqner kan voronq hatow chen, ayl qashowen, et harcy chgitem, vonc karelia kazmakerpel
-7) About us - page
-8) Contacts
-9) Search
-10) add my bug, with button
-
-Class.objects.get() in try/execpt
-variables name change with _
+6)Izbranniye
+7)Otzivneri tex
+8) Categoria Image
+9)Logo for stock
+11)Apranqi giny dnel vochmiayn integer ayl naev float tipi
+12)Mi qani apranq nshes, nor avelacnes My Bug

@@ -4,13 +4,15 @@
     Login
 {% endblock %}
 {% block body_block %}
-    <h1>Login to Shop</h1>
-    <form id="login_form" method="post" action="{% url 'market:login' %}">
+<center><h1><em>Login to Shop</em></h1><br /><br /><br /><br />
+        <br/>
+    <form class="card-title" id="login_form" method="post" action="{% url 'market:login' %}">
         {% csrf_token %}
-        Username:<input type="text" name="username" value="" size="50"/>
+        <h6><font color="black"><em>Username:</em></font></h6><input class="list-group-item" type="text" name="username" value="" size="50"/>
         <br />
-        Password:<input type="password" name="password" value="" size="50"/>
-        <br />
-        <input type="submit" value="submit" />
+        <h6><font color="black"><em>Password:</em></font></h6><input class="list-group-item" type="password" name="password" value="" size="50"/>
+        <br /><br />
+        <input class="list-group-item" type="submit" value="Login" />
     </form>
+    </center>
 {% endblock %}

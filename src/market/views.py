@@ -35,3 +35,31 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(reverse('market:login'))
+
+
+class AdminAboutView(View):
+    @staticmethod
+    def get(request):
+        print('about')
+        return render(request, 'about_for_admin.html')
+
+
+class CustomerAboutView(View):
+    @staticmethod
+    def get(request):
+        print('about')
+        return render(request, 'about_for_customer.html')
+
+
+class AdminContactsView(View):
+    @staticmethod
+    def get(request):
+        print('contact')
+        return render(request, 'contacts_for_admin.html')
+
+
+class CustomerContactsView(View):
+    @staticmethod
+    def get(request):
+        print('contact')
+        return render(request, 'contacts_for_customer.html')

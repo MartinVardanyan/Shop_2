@@ -136,6 +136,7 @@ class AdminStockView(View):
                 context_dict['categories'] = category
                 context_dict['stock_name'] = stock_name
                 print(context_dict)
+                AdminCategoryView.as_view()
                 return render(request, 'my_stock.html', context_dict)
 
             else:

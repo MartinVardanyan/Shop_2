@@ -5,14 +5,23 @@
     Add Category
 {% endblock %}
 {% block body_block %}
-<h2> Add category here!</h2>
 {% if is_add_category %}
-<strong>Thanks for add category!</strong>
+              <br /><br /><h1 style="color: Black"><center><em>Thanks for add category!</em></center></h1><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% else %}
+              <center><h1 class="my-4"><em>Add category here!</em></h1>
     <form id="category_form" method="post" action="{% url 'market:add_category' %}">
         {% csrf_token %}
-        {{ category_form.as_p }}
-        <input type="submit" name="submit" value="Add Category"/>
+        <div class="form-group" >
+            <p class="required"><label class="required" for="name"><h6 style="color: Black"><em>Category name:</em></h6></label><br />
+                <input class="list-group-item" id="name" maxlength="30" name="name" type="text" placeholder="Category name"/></br>
+            </p>
+        <input type="submit" name="submit" value="Add Category"/><br /><br /><br /><br /><br /><br /><br /><br />
+            </p>
+        </div>
     </form>
+          </center>
 {% endif %}
+           </div>
+    </div>
+</div>
 {% endblock %}

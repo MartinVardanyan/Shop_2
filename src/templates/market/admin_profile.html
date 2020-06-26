@@ -5,10 +5,16 @@
 {{ username }} Profile
 {% endblock %}
 {% block body_block %}
-    <h1>{{ username }}'s Profile</h1>
-    <h3>Your Stock:</h3><a href="{% url 'market:my_stock' %}"><h2>{{ stockname }}</h2></a>
-    <a href="{% url 'market:edit_stock_name' id %}">Edit Stock Name!</a>
-    <br/><br/>{% if avatar %}
+<div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+          <h2 class="my-5"><em>{{ username }}'s Profile</em></h2>
+          <h3 style="color: Black"><em>Your Stock:</em></h3><a class="nav-link" href="{% url 'market:my_stock' %}"><h3><em>{{ stockname }}</em></h3></a>
+          <a class="nav-link" href="{% url 'market:edit_stock_name' id %}"><h6><em>Edit Stock Name!</em></h6></a>
+    <br/>{% if avatar %}
         <img src="/media/{{ avatar }}" width="300" height="300" alt="{{ username }}'s profile image" />
     {% endif %}
+      </div>
+    </div>
+</div>
 {% endblock %}

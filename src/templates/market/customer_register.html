@@ -6,13 +6,36 @@
 {% endblock %}
 {% block body_block %}
 {% if is_register %}
-    <h1><strong>Register Here Customer!</strong></h1>
-    <form id="customer" method="post" action="{% url 'market:customer_register' %}" enctype="multipart/form-data">
+<center><h1 style="color: Black"><em>Register Here Customer!</em></h1>
+    <form class="card-title" role="form" method="post" action="{% url 'market:customer_register' %}" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ customer.as_p }}
-        <input type="submit" name="submit" value="Register"/>
+        <div class="form-group" >
+            <p class="required"><label class="required" for="id_username"><h6><font color="black"><em>Username:</em></font></h6></label>
+            <input class="list-group-item" id="id_username" maxlength="30" name="username" type="text" placeholder="Username"/>
+            <span class="helptext">
+            <h6><font color="black"><em>Required. 30 characters or fewer.
+                Letters, digits and @/./+/-/_ only.</em></font></h6>
+            </span>
+            </p>
+            <p class="required"> <label class="required" for="id_email"><h6><font color="black"><em>E-mail:</em></font></h6></label>
+            <input class="list-group-item" id="id_email" name="email" type="email" placeholder="Email"/>
+            </p>
+            <p class="required"> <label class="required" for="id_password"><h6><font color="black"><em>Password:</em></font></h6></label>
+            <input class="list-group-item" id="id_password" name="password" type="password" placeholder="Password" />
+            </p>
+            <p class="required"> <label class="required" for="id_re_password"><h6><font color="black"><em>Password confirmation:</em></font></h6></label>
+            <input class="list-group-item" id="id_re_password" name="re_password" type="password"  placeholder="Password"/>
+                <span class="helptext"><h6><font color="black"><em>Enter the same password as before, for verification.</em></font></h6></span>
+            </p>
+            <p> <label class="required" for="id_avatar"><h6><font color="black"><em>Avatar:</em></font></h6></label>
+            <input id="id_avatar" name="avatar" type="file" multiple accept="image/*,image/jpeg">
+            </p>
+        </div>
+        <input class="list-group-item" type="submit" name="submit" value="Register"/>
     </form>
+</center>
 {% else %}
-<a href="{% url 'market:customer_register' %}">Your passwords be are different!</a>
+<center><a class="nav-link" href="{% url 'market:customer_register' %}"><em><h3 style="color: #000000">Your passwords be are different!</h3></em></a><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+</center>
 {% endif %}
 {% endblock %}

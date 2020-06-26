@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 {% extends 'customer_base.html' %}
 {% load static %}
-{% block title %}
-<h1>Stocks list</h1>
+{% block title_block %}
+Stocks list
 {% endblock %}
 {% block body_block %}
 {% if stocks %}
-<h1>Stocks list:</h1>
+<center><h1 style="color: Black"><em>Stocks list</em></h1></center><br />
 {% for stock in stocks %}
-<a href="{% url 'market:category_list' stock.id %}"><strong>{{stock.name}}</strong></a><br/>
+<center><a class="nav-link" href="{% url 'market:category_list' stock.id %}"><h3 style="color: Black"><em>{{stock.name}}</em></h3></a></center>
 {% endfor %}
+<br /><br/><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% else %}
-    <h2>We still don't have stock(</h2>
+<br /><center><h2 style="color: BLack"><em>We still don't have stock(</em></h2></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endif %}
 {% endblock %}

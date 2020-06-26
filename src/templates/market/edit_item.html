@@ -6,21 +6,21 @@ Edit Item!
 {% endblock %}
 {% block body_block %}
 {% if is_edit %}
-    <h2>Your successfully edit your item!</h2>
-
+<br /><br /><br /><center><h1 style="color: Black"><em>Your successfully edit your item!</em></h1></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% else %}
-<h1>Edit your item!</h1>
+<center><h1 style="color: BLack"><em>Edit your item!</em></h1>
 <form method="POST">
     {% csrf_token %}
     <p>
-        <label>Enter item name</label>
-        <input type="text" name="name" value="{{ item.name }}"/><br/>
-        <label>Enter item price</label>
-        <input type="text" name="price" value="{{ item.price }}"/><br/>
-        <label>Enter item quanity</label>
-        <input type="text" name="quanity" value="{{ item.quanity }}"/>
+        <label><h6 style="color: Black"><em>Enter item name</em></h6></label>
+        <input class="list-group-item" type="text" name="name" value="{{ item.name }}" placeholder="Item name"/><br/>
+        <label><h6 style="color:Black"><em>Enter item price</em></h6></label><br />
+        <input class="list-group-item" type="text" name="price" value="{{ item.price }}" placeholder="Item price"/><br/>
+        <label><h6 style="color:Black"><em>Enter item quantity</em></h6></label><br />
+        <input class="list-group-item" type="text" name="quanity" value="{{ item.quanity }}" placeholder="Item quantity"/>
     </p>
-    <input type="submit" value="Save" >
+    <input type="submit" value="Save" ><br /><br />
 </form>
+</center>
 {% endif %}
 {% endblock %}

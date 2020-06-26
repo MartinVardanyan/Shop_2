@@ -3,26 +3,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+     <link href="{% static 'css/shop-homepage.css' %}" rel="stylesheet">
     <title>Market -
     {% block title_block %}
         Welcome to our online shop!
     {% endblock %}
     </title>
+     <style>
+   a {
+    color: #000000; /* Цвет текста */
+    transition: 1s linear; /* Время изменения */
+   }
+   a:hover {
+    color: #000000; /* Цвет текста */
+    background: #696969
+   }
+  </style>
 </head>
-<body>
-    <div>
+<body style="background-image: url(/static/images/Header_Onlineshop_gross.jpg);
+background-position: center;
+background-size: cover;
+background-attachment: fixed;
+background-repeat: no-repeat;
+height: 100vh;
+min-height: 100vh;
+width: 100%;
+display: flex;
+flex-direction: column;
+right: 170px;
+">
+<div>
+         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'market:about_for_customer' %}"><em>Create your shop!</em></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        {% if user.is_authenticated %}
+                        <ul class="navbar-nav ml-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="{% url 'market:customer_profile' %}"><em>Profile</em>
+                            <span class="sr-only">(current)</span>
+                        </a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:stock_list' %}"><em>Stock list</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:my_bag' %}"><em>My bug</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:about_for_customer' %}"><em>About us</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:contacts_for_customer' %}"><em>Contacts</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:logout' %}"><em>Logout</em></a>
+                        </li>
+                        </ul>
+                        {% else %}
+                        <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:login' %}"><em>Login</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:admin_register' %}"><em>Register as Admin</em>
+                        </a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:customer_register' %}"><em>Register as Customer</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:about_for_customer' %}"><em>About us</em></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'market:contacts_for_customer' %}"><em>Contacts</em></a>
+                        </li>
+                        </ul>
+                        {% endif %}
+                    </div>
+            </div>
+         </nav>
         {% block body_block%}
         {% endblock %}
     </div>
-    {% if user.is_authenticated %}
-    <li><a href="{% url 'market:stock_list' %}">Stock list</a></li>
-    <li><a href="{% url 'market:customer_profile' %}">Your Profile</a></li>
-    <li><a href="{% url 'market:my_bag' %}">Your bag</a></li>
-    <li><a href="{% url 'market:logout' %}">Logout</a></li>
-    {% else %}
-    <li><a href="{% url 'market:login' %}">Login</a></li>
-    <li><a href="{% url 'market:admin_register' %}">Register like Admin</a></li>
-    <li><a href="{% url 'market:customer_register' %}">Register like Customer</a></li>
-    {% endif %}
+        <footer style="position: auto;
+    left: 0; bottom: 0; /* Левый нижний угол */
+    width: 100%; /* Ширина слоя */
+   }" class="py-5 bg-dark">
+            <div class="container">
+                <p class="m-0 text-center text-white"><em>Copyright &copy; Martin Vardanyan 2020</em></p>
+            </div>
+          </footer>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
