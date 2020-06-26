@@ -57,7 +57,7 @@
                         <em>{{ items.name }}</em>
                     </h4>
                         <h5><em>{{ items.price }} $</em></h5>
-                        <p class="card-text"><em>Available in stock: {{ items.quanity }} pieces</em></p>
+                        <p class="card-text"><em>{{ items.info }}<br />Available in stock: {{ items.quanity }} pieces</em></p>
                     </div>
                     <div class="card-footer">
                     <small class="text-muted"><a class="nav-link" href="{% url 'market:edit_item' items.id %}"><em>Edit item</em></a></small>

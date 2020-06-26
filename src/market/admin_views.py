@@ -284,7 +284,8 @@ class AdminItemView(View):
             item = Item.objects.create(stock=stock, category=category, admin=admin,
                                        name=request.POST['name'], price=request.POST['price'],
                                        quanity=request.POST['quanity'],
-                                       picture=request.FILES['picture'])
+                                       picture=request.FILES['picture'],
+                                       info=request.POST['info'],)
             item.save()
             print(item, 8)
             is_add_item = True
@@ -316,6 +317,7 @@ class AdminItemView(View):
             name = request.POST.get('name', None)
             price = request.POST.get('price', None)
             quanity = request.POST.get('quanity', None)
+            info = request.POST.get('info', None)
             if price:
                 item.price = price
                 item.save()
@@ -324,6 +326,9 @@ class AdminItemView(View):
                 item.save()
             if quanity:
                 item.quanity = quanity
+                item.save()
+            if info:
+                item.info = info
                 item.save()
             print(4)
             is_edit = True

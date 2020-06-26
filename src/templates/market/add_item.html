@@ -14,7 +14,7 @@
         {% csrf_token %}
         <div class="form-group">
         <p class="required"><label class="required" for="name"><h6 style="color: Black"><em>Item name:</em></h6></label><br />
-            <input class="list-group-item" id="name" maxlength="30" name="name" type="text" placeholder="Item name"/>
+            <input class="list-group-item is valid" id="name" maxlength="30" name="name" type="text" placeholder="Item name"/>
         </p>
         <p class="required"><label class="required" for="price"><h6 style="color: Black"><em>Item price:</em></h6></label><br />
             <input class="list-group-item" id="price" maxlength="30" name="price" type="text" placeholder="Item price"/>
@@ -24,6 +24,9 @@
         </p>
          <p> <label class="required" for="picture"><h6><font color="black"><em>Picture:</em></font></h6></label>
             <input id="picture" name="picture" type="file" multiple accept="image/*,image/jpeg">
+         </p>
+         <p class="required"><label class="required" for="info"><h6 style="color: Black"><em>Information about Item:</em></h6></label>
+             <textarea id="info" name="info" placeholder="Information about Item" class="list-group-item" rows="7"></textarea>
          </p>
         </div>
         <input type="submit" name="submit" value="Add Item"/>

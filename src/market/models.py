@@ -53,6 +53,7 @@ class Item(models.Model):
     is_removed = models.BooleanField(default=False)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
     admin = models.ForeignKey(Administrator, on_delete=models.CASCADE, null=True)
+    info = models.CharField(max_length=100000, default='Info about Item')
 
     def __repr__(self):
         return "{} {} {} {} {}".format(self.stock, self.category, self.name, self.price, self.quanity)
