@@ -5,9 +5,6 @@
 Edit Item!
 {% endblock %}
 {% block body_block %}
-{% if is_edit %}
-<br /><br /><br /><center><h1 style="color: Black"><em>Your successfully edit your item!</em></h1></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-{% else %}
 <center><h1 style="color: BLack"><em>Edit your item!</em></h1>
 <form method="POST">
     {% csrf_token %}
@@ -24,5 +21,4 @@ Edit Item!
     <input type="submit" value="Save" ><br /><br />
 </form>
 </center>
-{% endif %}
 {% endblock %}

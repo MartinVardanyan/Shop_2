@@ -7,7 +7,7 @@ from market.models import Category, Item, Stock, MyBag, Administrator, Customer
 
 #
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('stock_name', 'category_name', 'name', 'price', 'quanity', 'admin', 'customer', 'info')
+    list_display = ('stock_name', 'category_name', 'name', 'price', 'quanity', 'admin', 'customer', 'info', 'is_removed')
     empty_value_display = '-empty-'
 
     def stock_name(self, item):

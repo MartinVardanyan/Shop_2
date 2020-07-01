@@ -5,9 +5,6 @@
     Edit Stock Name!
 {% endblock %}
 {% block body_block %}
-{% if is_edit %}
-<br /><br /><br /><center><h1 style="color: BLack"><em>You successfully edit your stock name!</em></h1></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-{% else %}
 <center><h1><em>Edit your stock name!</em></h1>
     <form method="post" action="{% url 'market:edit_stock_name' id %}">
         {% csrf_token %}
@@ -19,5 +16,4 @@
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </form>
 </center>
-{% endif %}
 {% endblock %}

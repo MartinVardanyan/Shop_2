@@ -6,7 +6,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
      <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
      <link href="{% static 'css/shop-homepage.css' %}" rel="stylesheet">
-    <link rel="shortcut icon" href="static/images/favicon.png" type="image/png">
+     <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" type="image/png">
     <title>Market -
     {% block title_block %}
         Welcome to our online shop!
@@ -53,7 +53,7 @@ right: 170px;
                             <a class="nav-link" href="{% url 'market:stock_list' %}"><em>Stock list</em></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'market:my_bag' %}"><em>My bug</em></a>
+                            <a class="nav-link" href="{% url 'market:my_bag' %}"><em>My bag</em></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'market:about_for_customer' %}"><em>About us</em></a>
@@ -93,7 +93,7 @@ right: 170px;
         <footer style="position: auto;
     left: 0; bottom: 0; /* Левый нижний угол */
     width: 100%; /* Ширина слоя */
-   }" class="py-5 bg-dark">
+    }" class="py-5 bg-dark">
             <div class="container">
                 <p class="m-0 text-center text-white"><em>Copyright &copy; Martin Vardanyan 2020</em></p>
             </div>

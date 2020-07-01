@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 
 # 3-th part imports
 from market.forms import AdminForm, StockForm, CategoryForm, ItemForm
@@ -80,7 +82,8 @@ class AdminProfileView(View):
             return render(request, 'admin_profile.html', context_dict)
 
         except Administrator.DoesNotExist:
-            print("<h2>We can't find this admin!</h2>")
+            print("We can't find this admin!")
+            return redirect(reverse('market:login'))
 
 
 #
@@ -91,7 +94,6 @@ class AdminStockView(View):
 
     @method_decorator(login_required)
     def post(self, request, id):
-        is_edit = False
         try:
             stock = Stock.objects.get(id=id)
             print(1, stock)
@@ -100,11 +102,10 @@ class AdminStockView(View):
             print(stock.name, 3)
             stock.save()
             print(4)
-            is_edit = True
-            return render(request, 'edit_stock_name.html', {'is_edit': is_edit})
+            return redirect(reverse('market:admin_profile'))
 
         except Stock.DoesNotExist:
-            return render(request, 'edit_stock_name.html', {'is_edit': is_edit})
+            return redirect(reverse('market:admin_profile'))
 
     @staticmethod
     def check_view(request):
@@ -146,7 +147,7 @@ class AdminStockView(View):
                 return render(request, 'my_stock.html', context_dict)
 
         except Administrator.DoesNotExist:
-            print("<h2>We can't find this stock!</h2>")
+            return redirect(reverse('market:login'))
 
 
 #
@@ -187,9 +188,7 @@ class AdminCategoryView(View):
                 print(category.name, 3)
                 category.save()
             print(4)
-            is_edit = True
-            return render(request, 'edit_category_name.html', {'is_edit': is_edit,
-                                                               'category': category})
+            return redirect(reverse('market:category', args=[category.id]))
 
         except Category.DoesNotExist:
             return HttpResponse("<h2>Category not found</h2>")
@@ -204,7 +203,7 @@ class AdminCategoryView(View):
             print('post')
             return AdminCategoryView.add_category(request)
         else:
-            return HttpResponse('Method not allowed!')
+            return redirect(reverse('market:my_stock'))
 
     @staticmethod
     @login_required
@@ -226,23 +225,20 @@ class AdminCategoryView(View):
                 stock = Stock.objects.get(admin=admin)
                 shop = stock
                 print(stock, 6)
-                category = Category.objects.create(stock=shop, name=request.POST['name'])
+                category = Category.objects.create(stock=shop, picture=request.FILES['picture'], name=request.POST['name'])
                 print(category, 7)
                 category.save()
                 print(8)
-                is_add_category = True
-                return render(request, 'add_category.html', {'is_add_category': is_add_category})
+                return redirect(reverse('market:my_stock'))
 
             except Administrator.DoesNotExist:
-                print("We can't find this admin!")
+                return redirect(reverse('market:my_stock'))
 
     @staticmethod
     @login_required
     def get_category_page(request):
-        is_add_category = False
         category_form = CategoryForm()
-        return render(request, 'add_category.html', {'category_form': category_form,
-                                                     'is_add_category': is_add_category})
+        return render(request, 'add_category.html', {'category_form': category_form})
 
 
 #
@@ -253,10 +249,8 @@ class AdminItemView(View):
             category = Category.objects.get(id=id)
         except Category.DoesNotExist:
             category = None
-        is_add_item = False
         item_form = ItemForm(data=request.GET)
         return render(request, 'add_item.html', {'category': category,
-                                                 'is_add_item': is_add_item,
                                                  "item_form": item_form})
 
     @method_decorator(login_required)
@@ -266,7 +260,6 @@ class AdminItemView(View):
         except Category.DoesNotExist:
             category = None
         print(category, 1)
-        is_add_item = False
         print(2)
         item_form = ItemForm(data=request.POST)
 
@@ -288,13 +281,11 @@ class AdminItemView(View):
                                        info=request.POST['info'],)
             item.save()
             print(item, 8)
-            is_add_item = True
-            return render(request, 'add_item.html', {'is_add_item': is_add_item,
-                                                     'category': category})
+            return redirect(reverse('market:category', args=[category.id]))
+
         else:
             print(item_form.errors)
             return render(request, 'add_item.html', {'item_form': item_form,
-                                                     'is_add_item': is_add_item,
                                                      'category': category})
 
     @staticmethod
@@ -314,6 +305,7 @@ class AdminItemView(View):
     def edit_item(request, id):
         try:
             item = Item.objects.get(id=id)
+            category = item.category
             name = request.POST.get('name', None)
             price = request.POST.get('price', None)
             quanity = request.POST.get('quanity', None)
@@ -331,17 +323,14 @@ class AdminItemView(View):
                 item.info = info
                 item.save()
             print(4)
-            is_edit = True
-            return render(request, 'edit_item.html', {'is_edit': is_edit, 'item': item})
+            return redirect(reverse('market:category', args=[category.id]))
         except Item.DoesNotExist:
             return HttpResponse("We don't find this item")
 
     @staticmethod
     @login_required
     def get_edit_item(request, id):
-        is_edit = False
-        return render(request, 'edit_item.html', {'is_edit': is_edit,
-                                                  'id': id})
+        return render(request, 'edit_item.html', {'id': id})
 
 
 #

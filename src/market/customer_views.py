@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 
 # 3-th part imports
 from market.forms import CustomerForm
@@ -75,12 +77,14 @@ class CustomerGetView(View):
         try:
             print('get')
             stock = Stock.objects.get(id=id)
+            admin = stock.admin
             print(stock, 1)
             categories = Category.objects.filter(stock=stock)
             print(categories, 2)
             context_dict = {}
             context_dict['categories'] = categories
             context_dict['stock'] = stock
+            context_dict['admin'] = admin
             print(context_dict, 3)
             return render(request, 'category_list.html', context_dict)
         except Stock.DoesNotExist:
@@ -144,13 +148,14 @@ class CustomerMyBagView(View):
     @staticmethod
     @login_required
     def create_my_bag(request, id):
-        is_add = False
         try:
             print(1)
             user = request.user
             customer = Customer.objects.get(user=user)
             x = request.POST.get('quanity')
             item = Item.objects.get(id=id)
+            category = item.category
+            stock =category.stock
 
             if int(x) > int(item.quanity) or int(x) <= 0:
                 print('error')
@@ -167,6 +172,7 @@ class CustomerMyBagView(View):
                 my_bag_item.price = item.price
                 my_bag_item.picture = item.picture
                 my_bag_item.customer = customer
+                my_bag_item.info = item.info
                 my_bag_item.quanity = request.POST.get('quanity')
                 my_bag_item.save()
                 print(my_bag_item)
@@ -176,12 +182,9 @@ class CustomerMyBagView(View):
                 print(my_bag.item)
                 my_bag.save()
                 print(3, my_bag)
-                is_add = True
-                return render(request, 'add_item_my_bag.html', {'is_add': is_add,
-                                                                'item': my_bag_item})
+                return redirect(reverse('market:category_list', args=[stock.id]))
         except Item.DoesNotExist:
-            return render(request, 'add_item_my_bag.html.html', {'is_add': is_add,
-                                                                 'id': id})
+            return render(request, 'add_item_my_bag.html.html', {'id': id})
 
     @staticmethod
     @login_required

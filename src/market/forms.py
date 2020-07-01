@@ -76,7 +76,7 @@ class CategoryForm(forms.ModelForm):
     #
     class Meta:
         model = Category
-        fields = ('name',)
+        fields = ('name', 'picture')
 
 
 #
@@ -88,4 +88,4 @@ class ItemForm(forms.ModelForm):
     #
     class Meta:
         model = Item
-        fields = ('name', 'price', 'quanity', 'picture', 'info')
+        fields = ('name', 'price', 'quanity', 'picture')

@@ -25,7 +25,7 @@ class LoginView(View):
                     login(request, user)
                     return redirect(reverse('market:customer_profile'))
             else:
-                print("Invalid login details: {0}, {1}".format(username, password))
+                return redirect(reverse('market:login'))
         else:
             render(request, 'login.html')
 

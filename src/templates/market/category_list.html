@@ -7,17 +7,31 @@
 {% block body_block %}
 <div class="container">
     <div class="row">
-      <div class="col-lg-4">
-{% if categories %}
-          <br /><br /><h2 style="color: BLack"><em>Category in {{ stock.name }} stock:</em></h2><br /><br />
-{% for category in categories %}
-          <h5 style="color: Black"><a class="nav-link" href="{% url 'market:item_list' category.id %}"><em>{{ category.name }}</em><br/></a></h5>
-{% endfor %}
-          <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-{% else %}
-          <br /><br /><br /><h2 style="color: Black"><em>{{ stock.name }} don't have category yet(</em></h2><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-{% endif %}
-      </div>
+        <div class="col-lg-4">
+            <h3 style="color: Black"><em>Moderator:<br /><br /> {{ admin.user }}</em></h3><br />
+            <img src="/media/{{ admin.avatar }}" width="300" height="300" alt="{{ admin.name }}'s profile image" />
+        </div>
+        <div class="col-lg-8">
+            {% if categories %}
+                <br /><br /><h2 class="my-4" style="color: BLack"><em>Category in {{ stock.name }} stock:</em></h2><br /><br />
+                <div class="row">
+                    {% for category in categories %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                            <a href="{% url 'market:item_list' category.id %}"><img class="card-img-top" src="/media/{{ category.picture }}" width="300" height="200" alt="{{ category }}'s image"></a>
+                                <div class="card-body">
+                                <h4 class="card-title">
+                                <em>{{ category.name }}</em>
+                                </h4>
+                                </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <br /><br /><br /><h2 style="color: Black"><em>{{ stock.name }} don't have category yet(</em></h2><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

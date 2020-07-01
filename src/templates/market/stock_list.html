@@ -6,12 +6,12 @@ Stocks list
 {% endblock %}
 {% block body_block %}
 {% if stocks %}
-<center><h1 style="color: Black"><em>Stocks list</em></h1></center><br />
-{% for stock in stocks %}
-<center><a class="nav-link" href="{% url 'market:category_list' stock.id %}"><h3 style="color: Black"><em>{{stock.name}}</em></h3></a></center>
-{% endfor %}
-<br /><br/><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <center><h1 style="color: Black"><em>Stocks list</em></h1></center><br />
+    {% for stock in stocks %}
+        <center><a class="nav-link" href="{% url 'market:category_list' stock.id %}"><h3 style="color: Black"><em>{{stock.name}}</em></h3></a></center>
+    {% endfor %}
+        <br /><br/><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% else %}
-<br /><center><h2 style="color: BLack"><em>We still don't have stock(</em></h2></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><center><h2 style="color: BLack"><em>We still don't have stock(</em></h2></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 {% endif %}
 {% endblock %}

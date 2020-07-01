@@ -37,6 +37,7 @@ class Stock(models.Model):
 class Category(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    picture = models.ImageField(upload_to='category_pictures', blank=True)
 
     def __repr__(self):
         return self.name
