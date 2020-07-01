@@ -8,8 +8,6 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-4">
-            <h3 style="color: Black"><em>Moderator:<br /><br /> {{ admin.user }}</em></h3><br />
-            <img src="/media/{{ admin.avatar }}" width="300" height="300" alt="{{ admin.name }}'s profile image" />
         </div>
         <div class="col-lg-8">
             {% if categories %}
@@ -21,7 +19,7 @@
                             <a href="{% url 'market:item_list' category.id %}"><img class="card-img-top" src="/media/{{ category.picture }}" width="300" height="200" alt="{{ category }}'s image"></a>
                                 <div class="card-body">
                                 <h4 class="card-title">
-                                <em>{{ category.name }}</em>
+                                    <a class="nav-link" href="{% url 'market:item_list' category.id %}"><em>{{ category.name }}</em></a>
                                 </h4>
                                 </div>
                         </div>

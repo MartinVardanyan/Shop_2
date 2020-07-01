@@ -82,8 +82,8 @@ class CategoryForm(forms.ModelForm):
 #
 class ItemForm(forms.ModelForm):
     name = forms.CharField(max_length=100, help_text='Please enter the item name.')
-    price = forms.IntegerField(help_text='Please enter the price of item.')
-    quanity = forms.IntegerField(help_text="Please enter the quanity of item.")
+    price = forms.FloatField(help_text='Please enter the price of item.')
+    quanity = forms.FloatField(help_text="Please enter the quanity of item.")
 
     #
     class Meta:

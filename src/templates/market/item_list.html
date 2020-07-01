@@ -50,7 +50,7 @@
                         <em>{{ item.name }}</em>
                         </h4>
                         <h5><em>{{ item.price }} $</em></h5>
-                        <p class="card-text"><em>{{ item.info }}<br />Available in stock: {{ item.quanity }} pieces.</em></p>
+                        <p class="card-text"><em>{{ item.info }}<br /><h6>Available in stock: {{ item.quanity }} pieces.</h6></em></p>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted"><a class="nav-link" href="{% url 'market:my_bag_add' item.id %}"><em>By item</em></a></small>

@@ -47,7 +47,7 @@
                         <a href="{% url 'market:category' category.id %}"><img class="card-img-top" src="/media/{{ category.picture }}" width="300" height="200" alt="{{ category }}'s items image"></a>
                             <div class="card-body">
                             <h4 class="card-title">
-                            <em>{{ category.name }}</em>
+                                <a class="nav-link" href="{% url 'market:category' category.id %}"><em>{{ category.name }}</em></a>
                             </h4>
                             </div>
                     </div>

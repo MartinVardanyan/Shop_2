@@ -157,12 +157,12 @@ class CustomerMyBagView(View):
             category = item.category
             stock =category.stock
 
-            if int(x) > int(item.quanity) or int(x) <= 0:
+            if float(x) > float(item.quanity) or float(x) <= 0:
                 print('error')
                 errors = {'message': "We don't have so many quanity!"}
                 return render(request, 'add_item_my_bag.html', {'error': errors})
             else:
-                item.quanity = item.quanity - int(request.POST.get('quanity'))
+                item.quanity = item.quanity - float(request.POST.get('quanity'))
                 item.save()
                 print(2, item)
                 my_bag_item = Item()
