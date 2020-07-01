@@ -34,8 +34,7 @@ class CustomerRegisterView(View):
             customer.save()
             return render(request, 'login.html')
         else:
-            print(customer_form.errors)
-        return render(request, 'customer_register.html')
+            return render(request, 'customer_register.html')
 
 
 #
@@ -43,16 +42,12 @@ class CustomerProfileView(View):
     @method_decorator(login_required)
     def get(self, request):
         try:
-            print('get')
             user = request.user
-            print(user, 1)
             customer = Customer.objects.get(user=user)
             my_bag = MyBag.objects.filter(customer=customer)
-            print(customer, 2)
             context_dict = {}
             context_dict['customer'] = customer
             context_dict['my_bag'] = my_bag
-            print(context_dict, 3)
             return render(request, 'customer_profile.html', context_dict)
         except Customer.DoesNotExist:
             return HttpResponse("We can't find this customer!")
@@ -63,29 +58,22 @@ class CustomerGetView(View):
     @staticmethod
     @login_required
     def get_stock_list(request):
-        print(1)
         stocks = Stock.objects.all()
-        print(stocks)
         context_dict = {}
         context_dict['stocks'] = stocks
-        print(context_dict)
         return render(request, 'stock_list.html', context_dict)
 
     @staticmethod
     @login_required
     def get_category_list(request, id):
         try:
-            print('get')
             stock = Stock.objects.get(id=id)
             admin = stock.admin
-            print(stock, 1)
             categories = Category.objects.filter(stock=stock)
-            print(categories, 2)
             context_dict = {}
             context_dict['categories'] = categories
             context_dict['stock'] = stock
             context_dict['admin'] = admin
-            print(context_dict, 3)
             return render(request, 'category_list.html', context_dict)
         except Stock.DoesNotExist:
             return HttpResponse("<h2>We can't find this stock!</h2>")
@@ -94,15 +82,10 @@ class CustomerGetView(View):
     @login_required
     def get_item_list(request, id):
         try:
-            print('get')
             category = Category.objects.get(id=id)
-            print(category.name)
             stock = category.stock
-            print(stock)
             admin = stock.admin
-            print(category, 1)
             items = Item.objects.filter(category=category, admin=admin)
-            print(items, 2)
             context_dict = {}
             context_dict['category'] = category
             context_dict['items'] = items
@@ -115,18 +98,13 @@ class CustomerGetView(View):
 class CustomerMyBagView(View):
     @method_decorator(login_required)
     def get(self, request):
-        print(0)
         try:
             user = request.user
             customer = Customer.objects.get(user=user)
-            print(1)
             my_bag = MyBag.objects.filter(customer=customer)
-            print(2, my_bag)
             context_dict = {}
             context_dict['customer'] = customer
-            print(context_dict, 3)
             context_dict['items'] = my_bag
-            print(context_dict, 4)
             return render(request, 'my_bag.html', context_dict)
         except MyBag.DoesNotExist:
             return HttpResponse("<h2>We can't find your bug</h2>")
@@ -134,10 +112,8 @@ class CustomerMyBagView(View):
     @staticmethod
     def check_view(request, id):
         if request.method == "POST":
-            print('post')
             return CustomerMyBagView.create_my_bag(request, id)
         elif request.method == 'GET':
-            print('get')
             return CustomerMyBagView.get_list(request, id)
 
     @staticmethod
@@ -149,7 +125,6 @@ class CustomerMyBagView(View):
     @login_required
     def create_my_bag(request, id):
         try:
-            print(1)
             user = request.user
             customer = Customer.objects.get(user=user)
             x = request.POST.get('quanity')
@@ -158,13 +133,11 @@ class CustomerMyBagView(View):
             stock =category.stock
 
             if float(x) > float(item.quanity) or float(x) <= 0:
-                print('error')
                 errors = {'message': "We don't have so many quanity!"}
                 return render(request, 'add_item_my_bag.html', {'error': errors})
             else:
                 item.quanity = item.quanity - float(request.POST.get('quanity'))
                 item.save()
-                print(2, item)
                 my_bag_item = Item()
                 my_bag_item.stock = item.stock
                 my_bag_item.category = item.category
@@ -175,13 +148,10 @@ class CustomerMyBagView(View):
                 my_bag_item.info = item.info
                 my_bag_item.quanity = request.POST.get('quanity')
                 my_bag_item.save()
-                print(my_bag_item)
                 my_bag = MyBag()
                 my_bag.customer = customer
                 my_bag.item = my_bag_item
-                print(my_bag.item)
                 my_bag.save()
-                print(3, my_bag)
                 return redirect(reverse('market:category_list', args=[stock.id]))
         except Item.DoesNotExist:
             return render(request, 'add_item_my_bag.html.html', {'id': id})
