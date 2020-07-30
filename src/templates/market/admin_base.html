@@ -14,15 +14,22 @@
         </title>
         <style>
             a {
-            color: #000000; /* Цвет текста */
-            transition: 1s linear; /* Время изменения */}
-            a:hover {
-            color: #000000; /* Цвет текста */
-            background: #696969}
+
+                color: #000000; /* Цвет текста */
+                transition: 1s linear; /* Время изменения */}
+                a:hover {
+                color: #000000; /* Цвет текста */
+                background: #696969
+            }
+
+            .main-content{
+                background-color: #e7e6e4b5;
+            }
 
         </style>
 </head>
-<body style="background-image: url(/static/images/Header_Onlineshop_gross.jpg);
+<body style="
+    background-image: url(/static/images/Header_Onlineshop_gross.jpg);
     background-position: center;
     background-size: cover;
     background-attachment: fixed;
@@ -33,7 +40,8 @@
     display: flex;
     flex-direction: column;
     right: 170px;">
-        <div>
+
+        <div class="container main-content">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div class="container">
                     <a class="navbar-brand" href="{% url 'market:about_for_admin' %}"><em>Create your shop!</em></a>
