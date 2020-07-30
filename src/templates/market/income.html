@@ -17,7 +17,7 @@ Income
             {% for i in sold_items %}
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="card h-100">
-                        <img class="card-img-top" src="/media/{{ i.picture }}" width="300" height="200" alt="{{ i }}'s items image"></a>
+                        <img class="card-img-top" src="/media/{{ i.picture }}" width="300" height="200" alt="{{ i }}'s items image">
                         <div class="card-body">
                         <h4 class="card-title">
                         <em>{{ i.name }}</em>
@@ -33,5 +33,6 @@ Income
             <br /><br /><center><em><h1 style="color: Black">You have not any sold items.</h1></em></center><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         {% endif %}
     </div>
+</div>
 </div>
 {% endblock %}

@@ -12,16 +12,21 @@
         Welcome to our online shop!
     {% endblock %}
     </title>
-     <style>
-   a {
-    color: #000000; /* Цвет текста */
-    transition: 1s linear; /* Время изменения */
-   }
-   a:hover {
-    color: #000000; /* Цвет текста */
-    background: #696969
-   }
-  </style>
+        <style>
+
+            a {
+                color: #000000; /* Цвет текста */
+                transition: 1s linear; /* Время изменения */}
+                a:hover {
+                color: #000000; /* Цвет текста */
+                background: #696969
+            }
+
+            .main-content{
+                background-color: #e7e6e4b5;
+            }
+
+        </style>
 </head>
 <body style="background-image: url(/static/images/Header_Onlineshop_gross.jpg);
 background-position: center;
@@ -35,8 +40,8 @@ display: flex;
 flex-direction: column;
 right: 170px;
 ">
-<div>
-         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<div class="container main-content">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="{% url 'market:about_for_customer' %}"><em>Create your shop!</em></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
